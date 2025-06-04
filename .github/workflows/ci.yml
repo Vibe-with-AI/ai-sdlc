@@ -77,10 +77,16 @@ jobs:
           # Test that the CLI can be installed and run
           uv run aisdlc --help || echo "CLI help command test"
 
+          # Build and install the package for testing
+          uv build
+
           # Test init command in a temporary directory
           mkdir -p /tmp/test-ai-sdlc
           cd /tmp/test-ai-sdlc
-          uv run --directory $GITHUB_WORKSPACE aisdlc init
+
+          # Install the built package and run init
+          pip install $GITHUB_WORKSPACE/dist/*.whl
+          aisdlc init
 
           # Verify key files were created
           test -f .aisdlc
