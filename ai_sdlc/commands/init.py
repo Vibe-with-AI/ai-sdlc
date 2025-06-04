@@ -66,14 +66,14 @@ Getting Started:
 """
 
 PROMPT_FILE_NAMES = [
-    "0-idea.prompt.yml",
-    "1-prd.prompt.yml",
-    "2-prd-plus.prompt.yml",
-    "3-system-template.prompt.yml",
-    "4-systems-patterns.prompt.yml",
-    "5-tasks.prompt.yml",
-    "6-tasks-plus.prompt.yml",
-    "7-tests.prompt.yml",
+    "0.idea.instructions.md",
+    "1.prd.instructions.md",
+    "2.prd-plus.instructions.md",
+    "3.system-template.instructions.md",
+    "4.systems-patterns.instructions.md",
+    "5.tasks.instructions.md",
+    "6.tasks-plus.instructions.md",
+    "7.tests.instructions.md",
 ]
 
 

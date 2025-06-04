@@ -280,14 +280,14 @@ flowchart TD
 │   ├── scaffold_template/  # default templates for new projects
 │   └── utils.py            # shared helpers
 ├── prompts/                # LLM templates for each SDLC step
-│   ├── 0-idea.prompt.yml   # initial idea analysis
-│   ├── 1-prd.prompt.yml    # product requirements
-│   ├── 2-prd-plus.prompt.yml # enhanced requirements
-│   ├── 3-system-template.prompt.yml # system architecture
-│   ├── 4-systems-patterns.prompt.yml # design patterns
-│   ├── 5-tasks.prompt.yml  # implementation tasks
-│   ├── 6-tasks-plus.prompt.yml # task list review & handoff preparation
-│   └── 7-tests.prompt.yml         # test generation
+│   ├── 0.idea.instructions.md   # initial idea analysis
+│   ├── 1.prd.instructions.md    # product requirements
+│   ├── 2.prd-plus.instructions.md # enhanced requirements
+│   ├── 3.system-template.instructions.md # system architecture
+│   ├── 4.systems-patterns.instructions.md # design patterns
+│   ├── 5.tasks.instructions.md  # implementation tasks
+│   ├── 6.tasks-plus.instructions.md # task list review & handoff preparation
+│   └── 7.tests.instructions.md         # test generation
 ├── tests/                  # pytest suite (unit + integration)
 │   ├── unit/               # unit tests
 │   └── integration/        # integration tests

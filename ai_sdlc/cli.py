@@ -22,7 +22,7 @@ def _resolve(dotted: str) -> Callable[..., None]:
     """Import `"module:function"` and return the function object."""
     module_name, func_name = dotted.split(":")
     module = import_module(module_name)
-    return getattr(module, func_name)
+    return getattr(module, func_name)  # type: ignore[no-any-return]
 
 
 def _display_compact_status() -> None:

@@ -37,9 +37,9 @@ def test_full_lifecycle_flow(temp_project_dir: Path, mocker):
     # Verify files and directories created by init
     assert (temp_project_dir / ".aisdlc").exists()
     assert (temp_project_dir / "prompts").is_dir()
-    assert (temp_project_dir / "prompts" / "0-idea.prompt.yml").exists()
+    assert (temp_project_dir / "prompts" / "0.idea.instructions.md").exists()
     assert (
-        temp_project_dir / "prompts" / "1-prd.prompt.yml"
+        temp_project_dir / "prompts" / "1.prd.instructions.md"
     ).exists()  # Check one of the key prompts for 'next'
     assert (temp_project_dir / "doing").is_dir()
     assert (temp_project_dir / "done").is_dir()
@@ -125,8 +125,8 @@ def test_full_lifecycle_flow(temp_project_dir: Path, mocker):
     )
 
     # 4. Run next command again (advancing from 1-prd to 2-prd-plus)
-    # Ensure a prompt file for 2-prd-plus.prompt.yml exists from init
-    assert (temp_project_dir / "prompts" / f"{test_steps[2]}.prompt.yml").exists()
+    # Ensure a prompt file for 2.prd-plus.instructions.md exists from init
+    assert (temp_project_dir / "prompts" / f"{test_steps[2]}.instructions.md").exists()
 
     result = run_aisdlc_command(temp_project_dir, "next")
     assert result.returncode == 0, (

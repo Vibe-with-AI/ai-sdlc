@@ -7,6 +7,7 @@ import re
 import sys
 import unicodedata
 from pathlib import Path
+from typing import Any
 
 
 def find_project_root() -> Path:
@@ -26,10 +27,10 @@ ROOT = find_project_root()
 try:
     import tomllib as _toml  # Python 3.11+
 except ModuleNotFoundError:  # pragma: no cover – fallback for < 3.11
-    import tomli as _toml  # noqa: D401  # `uv pip install tomli`
+    import tomli as _toml  # type: ignore[import-not-found,no-redef]  # noqa: D401  # `uv pip install tomli`
 
 
-def load_config() -> dict:
+def load_config() -> dict[str, Any]:
     cfg_path = ROOT / ".aisdlc"
     if not cfg_path.exists():
         print(
@@ -52,12 +53,12 @@ def slugify(text: str) -> str:
     return slug or "idea"
 
 
-def read_lock() -> dict:
+def read_lock() -> dict[str, Any]:
     path = ROOT / ".aisdlc.lock"
     if not path.exists():
         return {}
     try:
-        return json.loads(path.read_text())
+        return json.loads(path.read_text())  # type: ignore[no-any-return]
     except json.JSONDecodeError:
         print(
             "⚠️  Warning: '.aisdlc.lock' file is corrupted or not valid JSON. Treating as empty."
@@ -65,5 +66,5 @@ def read_lock() -> dict:
         return {}
 
 
-def write_lock(data: dict) -> None:
+def write_lock(data: dict[str, Any]) -> None:
     (ROOT / ".aisdlc.lock").write_text(json.dumps(data, indent=2))

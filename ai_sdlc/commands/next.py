@@ -29,7 +29,7 @@ def run_next() -> None:
 
     workdir = ROOT / conf["active_dir"] / slug
     prev_file = workdir / f"{prev_step}-{slug}.md"
-    prompt_file = ROOT / conf["prompt_dir"] / f"{next_step}.prompt.yml"
+    prompt_file = ROOT / conf["prompt_dir"] / f"{next_step}.instructions.md"
     next_file = workdir / f"{next_step}-{slug}.md"
 
     if not prev_file.exists():
