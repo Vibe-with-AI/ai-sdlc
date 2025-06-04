@@ -10,7 +10,67 @@ permissions:
   id-token: write # Required for PyPI trusted publishing
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
+      should-release: ${{ steps.check.outputs.should-release }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Validate version format
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ Invalid version format: $VERSION"
+            echo "Version must follow semantic versioning (e.g., 1.2.3)"
+            exit 1
+          fi
+          echo "✅ Version format is valid: $VERSION"
+
+      - name: Check if this is a duplicate release
+        id: check
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+
+          # Check PyPI
+          if curl -s "https://pypi.org/pypi/ai-sdlc/$VERSION/json" | grep -q '"message":"Not Found"'; then
+            PYPI_EXISTS=false
+          else
+            PYPI_EXISTS=true
+          fi
+
+          # Check GitHub releases
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            GITHUB_EXISTS=true
+          else
+            GITHUB_EXISTS=false
+          fi
+
+          echo "PyPI version exists: $PYPI_EXISTS"
+          echo "GitHub release exists: $GITHUB_EXISTS"
+
+          if [[ "$PYPI_EXISTS" == "true" && "$GITHUB_EXISTS" == "true" ]]; then
+            echo "should-release=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Version $VERSION already exists on both PyPI and GitHub"
+            echo "This appears to be a duplicate release attempt"
+          else
+            echo "should-release=true" >> $GITHUB_OUTPUT
+            echo "✅ Proceeding with release for version $VERSION"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
   test:
+    needs: validate
+    if: needs.validate.outputs.should-release == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,8 +95,18 @@ jobs:
         run: |
           uv run pytest tests/integration/ -v
 
+      - name: Run linting
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
+      - name: Run type checking
+        run: |
+          uv run mypy ai_sdlc
+
   build:
-    needs: test
+    needs: [validate, test]
+    if: needs.validate.outputs.should-release == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,26 +134,53 @@ jobs:
           path: dist/
 
   publish-pypi:
-    needs: build
+    needs: [validate, build]
+    if: needs.validate.outputs.should-release == 'true'
     runs-on: ubuntu-latest
     # environment: release  # Uncomment when GitHub environment is created
     steps:
       - uses: actions/checkout@v4
 
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Check if version already exists on PyPI
+        id: check-pypi
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          if curl -s "https://pypi.org/pypi/ai-sdlc/$VERSION/json" | grep -q "Not Found"; then
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Version $VERSION does not exist on PyPI, proceeding with publish"
+          else
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Version $VERSION already exists on PyPI, skipping publish"
+          fi
+
       - name: Download build artifacts
+        if: steps.check-pypi.outputs.exists == 'false'
         uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist/
 
       - name: Publish to PyPI
+        if: steps.check-pypi.outputs.exists == 'false'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           print-hash: true
 
+      - name: Skip PyPI publish (already exists)
+        if: steps.check-pypi.outputs.exists == 'true'
+        run: |
+          echo "⚠️ Version ${{ steps.version.outputs.VERSION }} already exists on PyPI"
+          echo "This is likely a re-run of a previously successful release"
+          echo "Skipping PyPI publish step"
+
   create-github-release:
-    needs: [build, publish-pypi]
+    needs: [validate, build, publish-pypi]
     runs-on: ubuntu-latest
+    if: always() && needs.validate.outputs.should-release == 'true' && needs.build.result == 'success' && (needs.publish-pypi.result == 'success' || needs.publish-pypi.result == 'skipped')
     steps:
       - uses: actions/checkout@v4
 
@@ -97,7 +194,22 @@ jobs:
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
+      - name: Check if GitHub release already exists
+        id: check-release
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "GitHub release v$VERSION already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "GitHub release v$VERSION does not exist, proceeding with creation"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Extract changelog for this version
+        if: steps.check-release.outputs.exists == 'false'
         id: changelog
         run: |
           # Extract the changelog section for this version
@@ -112,6 +224,7 @@ jobs:
           fi
 
       - name: Create GitHub Release
+        if: steps.check-release.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*
@@ -119,3 +232,28 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
+
+      - name: Skip GitHub release (already exists)
+        if: steps.check-release.outputs.exists == 'true'
+        run: |
+          echo "⚠️ GitHub release v${{ steps.version.outputs.VERSION }} already exists"
+          echo "This is likely a re-run of a previously successful release"
+          echo "Skipping GitHub release creation step"
+
+  skip-duplicate-release:
+    needs: validate
+    if: needs.validate.outputs.should-release == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip duplicate release
+        run: |
+          echo "🚫 Skipping release for version ${{ needs.validate.outputs.version }}"
+          echo "This version already exists on both PyPI and GitHub"
+          echo "If you need to update the release, please:"
+          echo "1. Increment the version number in pyproject.toml"
+          echo "2. Update CHANGELOG.md with the new version"
+          echo "3. Create a new git tag with the new version"
+          echo ""
+          echo "Current release status:"
+          echo "- PyPI: ✅ Published"
+          echo "- GitHub: ✅ Released"
