@@ -54,12 +54,24 @@ The `.github/workflows/ci.yml` workflow runs on every push and PR:
 
 ### Release Process
 
-The `.github/workflows/release.yml` workflow runs when you push a tag:
+The `.github/workflows/release.yml` workflow runs when you push a tag and includes comprehensive validation:
 
-1. **Test**: Runs full test suite
-2. **Build**: Creates wheel and source distributions using `uv build`
-3. **Publish**: Uploads to PyPI using trusted publishing (no API keys needed!)
-4. **Release**: Creates GitHub release with changelog and artifacts
+1. **Validate**: Checks for duplicate releases and validates version format
+2. **Test**: Runs full test suite, linting, and type checking
+3. **Build**: Creates wheel and source distributions using `uv build`
+4. **Publish**: Uploads to PyPI using trusted publishing (no API keys needed!)
+5. **Release**: Creates GitHub release with changelog and artifacts
+
+#### Duplicate Release Protection
+
+The workflow automatically detects and handles duplicate releases:
+
+- **PyPI Check**: Verifies if the version already exists on PyPI
+- **GitHub Check**: Verifies if a GitHub release already exists
+- **Smart Skipping**: Skips steps that would fail due to duplicates
+- **Clear Feedback**: Provides detailed messages about what was skipped and why
+
+This prevents broken release states and provides reliable, idempotent releases.
 
 ## Creating a Release
 
@@ -115,12 +127,22 @@ uv build
 
 ## Troubleshooting
 
+### Duplicate Release Detected
+
+If you see "Skipping release" messages:
+
+1. **Check if this is intentional**: The version may already be successfully released
+2. **Verify PyPI**: Check https://pypi.org/project/ai-sdlc/ for the version
+3. **Verify GitHub**: Check the releases page for the GitHub release
+4. **If you need to re-release**: Increment the version number and create a new tag
+
 ### PyPI Publishing Fails
 
 1. Check that trusted publishing is configured correctly on PyPI
 2. Verify the GitHub environment name matches (`release`)
 3. Ensure the workflow name matches (`release.yml`)
 4. Check that the repository owner/name are correct
+5. **Version conflict**: Ensure the version doesn't already exist on PyPI
 
 ### Tests Fail
 
