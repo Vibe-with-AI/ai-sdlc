@@ -5,12 +5,56 @@ All notable changes to the `ai-sdlc` project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.7.0-dev
+## [Unreleased]
 
 ### 🔧 Development
 
-- **Version synchronization**: Fixed version mismatch between `pyproject.toml` and `__init__.py`
-- **Development branch**: Main branch now tracks development version for ongoing improvements
+- No unreleased changes yet
+
+## [0.7.0] - 2025-01-20
+
+### 🔄 File Naming Convention Update
+
+**Breaking Changes:**
+
+- **Updated file naming**: Prompt files now use `.instructions.md` extension with new naming pattern
+  - Changed from `{number}-{name}.prompt.yml` to `{number}.{name}.instructions.md`
+  - All 8 prompt files renamed: `0.idea.instructions.md`, `1.prd.instructions.md`, `2.prd-plus.instructions.md`, etc.
+  - Maintains tool-agnostic approach while using consistent markdown-style naming convention
+
+### 🔧 Technical Improvements
+
+- **Updated all references**: Comprehensive update of all file references throughout the codebase
+  - Updated `ai_sdlc/commands/init.py` and `ai_sdlc/commands/next.py`
+  - Updated integration tests to expect new file names
+  - Updated CI/CD workflows to test new file names
+- **Cross-reference fixes**: Updated internal prompt file references
+  - Fixed references in `4.systems-patterns.instructions.md` to `3.system-template.instructions.md`
+  - Fixed references in `7.tests.instructions.md` to `5.tasks.instructions.md`
+- **Configuration updates**: Updated step names in scaffold template configuration
+  - Updated `.aisdlc` configuration to use new step naming pattern
+  - Updated Mermaid diagrams to reflect new naming convention
+
+### 📚 Documentation Updates
+
+- **Updated README**: File structure documentation now shows `.instructions.md` extensions
+- **Updated CHANGELOG**: Migration guide references updated to new naming convention
+- **Updated CI/CD documentation**: GitHub Actions workflows updated for new file names
+
+### 📦 Migration Guide
+
+Existing projects will continue to work, but to use the new naming convention:
+
+1. **Rename prompt files**: Change `.prompt.yml` to `.instructions.md` for all prompt files
+2. **Update file naming pattern**: Change from `{number}-{name}` to `{number}.{name}` format
+3. **Update any custom references**: If you have custom scripts referencing these files, update the extensions and naming pattern
+
+### 🎯 Benefits
+
+- **Consistent naming**: Unified `{number}.{name}.instructions.md` pattern throughout the system
+- **Tool compatibility**: Maintains compatibility with all AI tools and development environments
+- **Future-ready**: Scalable naming convention for additional prompt files
+- **Better organization**: Clearer file structure with consistent dot notation
 
 ## [0.6.2] - 2025-01-20
 
@@ -41,9 +85,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Breaking Changes:**
 
-- **Updated file naming**: Prompt files now use `.prompt.yml` extension instead of `.instructions.md`
-  - All 8 prompt files renamed: `0-idea.prompt.yml`, `1-prd.prompt.yml`, etc.
-  - Maintains tool-agnostic approach while using YAML-style naming convention
+- **Updated file naming**: Prompt files now use `.instructions.md` extension instead of `.prompt.yml`
+  - All 8 prompt files renamed: `0.idea.instructions.md`, `1.prd.instructions.md`, etc.
+  - Maintains tool-agnostic approach while using markdown-style naming convention
 
 ### 🔧 Technical Improvements
 
@@ -52,19 +96,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated package data patterns in `pyproject.toml`
   - Updated integration tests to expect new file names
 - **Cross-reference fixes**: Updated internal prompt file references
-  - Fixed references in `4-systems-patterns.prompt.yml` to `3-system-template.prompt.yml`
-  - Fixed references in `7-tests.prompt.yml` to `5-tasks.prompt.yml`
+  - Fixed references in `4.systems-patterns.instructions.md` to `3.system-template.instructions.md`
+  - Fixed references in `7.tests.instructions.md` to `5.tasks.instructions.md`
 
 ### 📚 Documentation Updates
 
-- **Updated README**: File structure documentation now shows `.prompt.yml` extensions
+- **Updated README**: File structure documentation now shows `.instructions.md` extensions
 - **Updated CHANGELOG**: Migration guide references updated to new naming convention
 
 ### 📦 Migration Guide
 
 Existing projects will continue to work, but to use the new naming convention:
 
-1. **Rename prompt files**: Change `.instructions.md` to `.prompt.yml` for all prompt files
+1. **Rename prompt files**: Change `.prompt.yml` to `.instructions.md` for all prompt files
 2. **Update any custom references**: If you have custom scripts referencing these files, update the extensions
 
 ### 🎯 Benefits
@@ -81,7 +125,7 @@ Existing projects will continue to work, but to use the new naming convention:
 
 - **Removed Cursor dependency**: AI-SDLC no longer requires Cursor or any specific AI tool
 - **New prompt-based workflow**: `aisdlc next` now generates prompt files instead of calling AI agents directly
-- **Updated file naming**: Prompt files now use `.prompt.yml` extension (e.g., `0-idea.prompt.yml`)
+- **Updated file naming**: Prompt files now use `.instructions.md` extension (e.g., `0.idea.instructions.md`)
 - **Simplified step names**: Steps now use single digits (e.g., `0-idea`, `1-prd`) instead of zero-padded numbers
 
 ### ✨ New Features
@@ -114,7 +158,7 @@ Existing projects will continue to work, but to use the new naming convention:
 
 Existing projects will continue to work, but to take advantage of the new features:
 
-1. **Update prompt files**: Rename your prompt files to use the new `.prompt.yml` convention
+1. **Update prompt files**: Rename your prompt files to use the new `.instructions.md` convention
 2. **Update step references**: Change step names from `01-idea` to `0-idea` format in any custom scripts
 3. **Choose your AI tool**: Use the generated prompts with your preferred AI assistant
 
