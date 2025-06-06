@@ -85,7 +85,7 @@ Get up and running with AI-SDLC in under 2 minutes:
 
 ```bash
 # Install uv (fast Python package manager)
-curl -LsSf https://astral.sh/uv/install | sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Install AI-SDLC
 uv pip install ai-sdlc
