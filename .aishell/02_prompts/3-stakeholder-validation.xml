@@ -1,0 +1,95 @@
+<prompt>
+  <task>
+    Validate a PRD chunk for a 5-agent team (Product Owner, Scrum Master, 2 Builders, 1 Reviewer) by analyzing requirements, identifying ambiguities, and proposing clarifications.
+  </task>
+
+  <tools_available>
+    <tool_reference source=".aishell/refs/available-tools.xml">
+      <tool name="context7_mcp" usage="For verifying APIs/libraries and technical details" />
+      <tool name="github_mcp" usage="For CRUD operations to store outputs and reference codebase files" />
+      <tool name="sequential_thinking_mcp" usage="For identifying ambiguities and simulating stakeholder feedback" />
+    </tool_reference>
+  </tools_available>
+
+  <instructions>
+    <step number="1">
+      <title>Summarize Chunk</title>
+      <description>Summarize the chunk’s objectives and features (50-100 words), verifying technical details with Context7 MCP Server.</description>
+    </step>
+    <step number="2">
+      <title>Identify Ambiguities</title>
+      <description>Highlight unclear or incomplete requirements, including cross-cutting concerns, using Sequential Thinking MCP.</description>
+    </step>
+    <step number="3">
+      <title>Propose Clarifications</title>
+      <description>List 2-3 clarification questions or assumptions.</description>
+    </step>
+    <step number="4">
+      <title>Assign Agent</title>
+      <description>Recommend an agent role to validate this chunk.</description>
+    </step>
+    <step number="5">
+      <title>Store Output</title>
+      <description>Format as markdown in repository path. Update index file with validation entry (type: validation, status: validated or needs_revision). Provide GitHub commit instructions.</description>
+    </step>
+    <step number="6">
+      <title>Output Format</title>
+      <description>Structured markdown with sections for chunk ID, summary, ambiguities, clarifications, assigned agent, index updates, and commit instructions.</description>
+    </step>
+  </instructions>
+
+  <input>
+    <prd_chunk_content>{PRD_CHUNK_CONTENT}</prd_chunk_content>
+    <chunk_id>{CHUNK_ID}</chunk_id>
+    <codebase_files>{CODEBASE_FILES}</codebase_files>
+    <repo_path>{REPO_PATH}</repo_path>
+    <index_file>{INDEX_FILE}</index_file>
+    <branch_name>{BRANCH_NAME}</branch_name>
+  </input>
+
+  <example>
+    <input>
+      <prd_chunk_content><![CDATA[<features><feature name="Prompts Router"><description>CRUD operations, likes, and search for prompts.</description><database_tables>prompts, prompt_likes</database_tables></feature></features>]]></prd_chunk_content>
+      <chunk_id>chunk_1</chunk_id>
+      <codebase_files>apps/api/src/db/schema.ts, apps/web/src/app/prompts/page.tsx</codebase_files>
+      <repo_path>.ai/validation/</repo_path>
+      <index_file>.ai/index.yml</index_file>
+      <branch_name>main</branch_name>
+    </input>
+
+    <output>
+      <validation>
+        <chunk_id>chunk_1</chunk_id>
+        <summary>This chunk specifies the Prompts tRPC router for `/prompts` page, enabling CRUD operations, likes, and search with tRPC, Zod, and Drizzle-ORM. It targets `prompts` and `prompt_likes` tables, with shared Zod schemas and tRPC middleware. (Verified with Context7 MCP.)</summary>
+        <ambiguities>
+          <ambiguity>Indexing strategy for `prompts.title` is unspecified</ambiguity>
+          <ambiguity>Unclear if search includes tag-based filtering</ambiguity>
+          <ambiguity>Shared middleware implementation details missing</ambiguity>
+        </ambiguities>
+        <clarifications>
+          <clarification>Should `prompts.title` use full-text indexing for search?</clarification>
+          <clarification>Does search include tag-based filtering?</clarification>
+          <clarification>Assume shared middleware handles auth for both routers?</clarification>
+        </clarifications>
+        <assigned_agent>Product Owner</assigned_agent>
+        <index_updates>
+          <![CDATA[
+chunk_1_validation:
+  id: chunk_1_validation
+  type: validation
+  status: needs_revision
+  linked_chunk: chunk_1
+  source_file: .ai/validation/chunk_1.validation.md
+          ]]>
+        </index_updates>
+        <commit_instructions>
+          <![CDATA[
+git add .ai/validation/chunk_1.validation.md .ai/index.yml
+git commit -m "Validate PRD chunk for Prompts Router"
+git push origin main
+          ]]>
+        </commit_instructions>
+      </validation>
+    </output>
+  </example>
+</prompt>

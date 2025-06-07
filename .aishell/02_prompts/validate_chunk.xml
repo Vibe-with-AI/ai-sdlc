@@ -1,0 +1,65 @@
+<prompt>
+  <task>
+    Validate a PRD chunk by analyzing its completeness, technical feasibility, and clarity for implementation by a development team.
+  </task>
+
+  <tools_available>
+    <tool_reference source=".aishell/refs/available-tools.xml">
+      <tool name="context7_mcp" usage="For verifying technical details and API documentation" />
+      <tool name="github_mcp" usage="For storing validation results and referencing codebase" />
+      <tool name="sequential_thinking_mcp" usage="For systematic validation analysis" />
+    </tool_reference>
+  </tools_available>
+
+  <instructions>
+    <step number="1">
+      <title>Analyze Completeness</title>
+      <description>Review the chunk for missing requirements, unclear specifications, and incomplete technical details.</description>
+    </step>
+    <step number="2">
+      <title>Verify Technical Feasibility</title>
+      <description>Use Context7 MCP to verify that specified libraries, APIs, and technical approaches are current and feasible.</description>
+    </step>
+    <step number="3">
+      <title>Identify Dependencies</title>
+      <description>List cross-cutting concerns and dependencies that may affect implementation.</description>
+    </step>
+    <step number="4">
+      <title>Assess Clarity</title>
+      <description>Evaluate whether the requirements are clear enough for developers to implement without ambiguity.</description>
+    </step>
+    <step number="5">
+      <title>Provide Recommendations</title>
+      <description>Suggest improvements, clarifications, or additional requirements needed.</description>
+    </step>
+    <step number="6">
+      <title>Store Results</title>
+      <description>Format validation results and store using GitHub MCP with appropriate status indicators.</description>
+    </step>
+  </instructions>
+
+  <input>
+    <chunk_content>{CHUNK_CONTENT}</chunk_content>
+    <chunk_id>{CHUNK_ID}</chunk_id>
+    <validation_criteria>{VALIDATION_CRITERIA}</validation_criteria>
+  </input>
+
+  <output_format>
+    <validation_result>
+      <chunk_id>{CHUNK_ID}</chunk_id>
+      <status>validated|needs_revision|rejected</status>
+      <completeness_score>1-10</completeness_score>
+      <technical_feasibility>verified|needs_verification|not_feasible</technical_feasibility>
+      <clarity_score>1-10</clarity_score>
+      <issues>
+        <issue priority="high|medium|low">{ISSUE_DESCRIPTION}</issue>
+      </issues>
+      <recommendations>
+        <recommendation>{RECOMMENDATION_TEXT}</recommendation>
+      </recommendations>
+      <dependencies>
+        <dependency>{DEPENDENCY_DESCRIPTION}</dependency>
+      </dependencies>
+    </validation_result>
+  </output_format>
+</prompt>

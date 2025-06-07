@@ -1,0 +1,1 @@
+.ai/in_progress/ – When a story is taken into a sprint for development, its file moves here (or is copied here with status updated to “in_progress”). This represents the active Sprint Backlog. The Builder agent works on these files (e.g., adding implementation notes, linking to code commits). This folder can also hold partial outputs or agent scratchpads during development.

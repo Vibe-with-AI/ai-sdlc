@@ -1,0 +1,53 @@
+<input>
+    <idea_content>Migrate VAI's API from REST to tRPC for the /prompts and /integrations pages, using Midday patterns, with no user impact.</idea_content>
+</input>
+
+<output>
+    <prd>
+        <title>PRD: tRPC Migration for Prompts and Integrations</title>
+
+        <executive_summary>
+Migrate VAI's API for `/prompts` and `/integrations` pages from REST to tRPC, adopting Midday patterns for type safety and performance. With no active users, prioritize development speed over stability.
+        </executive_summary>
+
+        <objectives>
+            <objective>Replace REST APIs with tRPC routers for `/prompts` and `/integrations`.</objective>
+            <objective>Implement Midday patterns for schema validation and middleware.</objective>
+            <objective>Optimize database queries with Drizzle for performance.</objective>
+        </objectives>
+
+        <features>
+            <feature name="Prompts Router">
+                <description>CRUD operations, likes, and search for prompts.</description>
+                <database_tables>prompts, prompt_likes</database_tables>
+            </feature>
+            <feature name="Integrations Router">
+                <description>API key management for AI providers.</description>
+                <database_tables>user_api_keys</database_tables>
+            </feature>
+        </features>
+
+        <technical_requirements>
+            <libraries>tRPC, Zod, Drizzle-ORM, Supabase (Context7 MCP verified)</libraries>
+            <file_paths>
+                <read_only>
+                    <file>apps/api/src/db/schema.ts</file>
+                    <file>apps/web/src/app/prompts/page.tsx</file>
+                </read_only>
+                <writeable>
+                    <file>apps/api/src/trpc/routers/prompts.ts</file>
+                    <file>apps/api/src/trpc/routers/integrations.ts</file>
+                    <file>apps/web/src/lib/api-client.ts</file>
+                </writeable>
+            </file_paths>
+            <database>Optimize `prompts` table with full-text indexing.</database>
+        </technical_requirements>
+
+        <success_metrics>
+            <metric>`/prompts` and `/integrations` pages fully functional with tRPC.</metric>
+            <metric>API response time <100ms.</metric>
+                <metric>100% TypeScript coverage.</metric>
+            </success_metrics>
+        </prd>
+
+        <github_commit_instructions>

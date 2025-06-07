@@ -1,0 +1,96 @@
+<prompt>
+  <task>
+    Plan capacity for a 5-agent team (Product Owner, Scrum Master, 2 Builders, 1 Reviewer) over a 2-week sprint in a Rolling Kanban model by estimating team capacity, factoring historical velocity, accounting for constraints, and recommending sprint capacity.
+  </task>
+
+  <tools_available>
+    <tool_reference source=".aishell/refs/available-tools.xml">
+      <tool name="context7_mcp" usage="For accessing team process documentation or tool constraints" />
+      <tool name="github_mcp" usage="For CRUD operations to review historical velocity and store outputs" />
+      <tool name="sequential_thinking_mcp" usage="For calculating realistic capacity" />
+    </tool_reference>
+  </tools_available>
+
+  <instructions>
+    <step number="1">
+      <title>Estimate Team Capacity</title>
+      <description>Assume each agent contributes specified hours/day over working days. Account for Scrum Master and Product Owner overhead (hours/day each).</description>
+    </step>
+    <step number="2">
+      <title>Factor in Historical Velocity</title>
+      <description>Check index file or repository path for past sprints (default to specified velocity points if no data).</description>
+    </step>
+    <step number="3">
+      <title>Account for Constraints</title>
+      <description>Identify constraints using Context7 MCP Server. Adjust capacity by specified percentage for learning or technical debt.</description>
+    </step>
+    <step number="4">
+      <title>Recommend Sprint Capacity</title>
+      <description>Provide a story point capacity, balancing workload across 2 Builders and 1 Reviewer.</description>
+    </step>
+    <step number="5">
+      <title>Store Output</title>
+      <description>Format as markdown in repository path. Update index file with capacity entry (type: sprint_capacity, status: planned). Provide GitHub commit instructions.</description>
+    </step>
+    <step number="6">
+      <title>Output Format</title>
+      <description>Structured markdown with sections for total hours, historical velocity, constraints, recommended capacity, index updates, and commit instructions.</description>
+    </step>
+  </instructions>
+
+  <input>
+    <historical_sprint_data>{HISTORICAL_SPRINT_DATA}</historical_sprint_data>
+    <constraints>{CONSTRAINTS}</constraints>
+    <repo_path>{REPO_PATH}</repo_path>
+    <index_file>{INDEX_FILE}</index_file>
+    <branch_name>{BRANCH_NAME}</branch_name>
+    <sprint_number>{SPRINT_NUMBER}</sprint_number>
+    <hours_per_day>{HOURS_PER_DAY}</hours_per_day>
+    <working_days>{WORKING_DAYS}</working_days>
+    <overhead_hours>{OVERHEAD_HOURS}</overhead_hours>
+    <default_velocity>{DEFAULT_VELOCITY}</default_velocity>
+    <adjustment_percentage>{ADJUSTMENT_PERCENTAGE}</adjustment_percentage>
+  </input>
+
+  <example>
+    <input>
+      <historical_sprint_data>None</historical_sprint_data>
+      <constraints>tRPC learning curve, shared middleware implementation</constraints>
+      <repo_path>.ai/sprint_capacity/</repo_path>
+      <index_file>.ai/index.yml</index_file>
+      <branch_name>main</branch_name>
+      <sprint_number>1</sprint_number>
+      <hours_per_day>6</hours_per_day>
+      <working_days>10</working_days>
+      <overhead_hours>2</overhead_hours>
+      <default_velocity>30-40</default_velocity>
+      <adjustment_percentage>15</adjustment_percentage>
+    </input>
+
+    <output>
+      <sprint_capacity>
+        <sprint_number>1</sprint_number>
+        <total_hours>5 agents x 6 hours/day x 10 days = 300 hours. Subtract 2 hours/day each for Product Owner and Scrum Master (40 hours total) = 260 hours.</total_hours>
+        <historical_velocity>No data; assume 30-40 points.</historical_velocity>
+        <constraints>tRPC learning curve, shared middleware implementation. Reduce capacity by 15%.</constraints>
+        <recommended_capacity>30 points x 0.85 = 25.5, rounded to 25 points.</recommended_capacity>
+        <index_updates>
+          <![CDATA[
+sprint_1_capacity:
+  id: sprint_1_capacity
+  type: sprint_capacity
+  status: planned
+  source_file: .ai/sprint_capacity/sprint_1.md
+          ]]>
+        </index_updates>
+        <commit_instructions>
+          <![CDATA[
+git add .ai/sprint_capacity/sprint_1.md .ai/index.yml
+git commit -m "Plan capacity for Sprint 1"
+git push origin main
+          ]]>
+        </commit_instructions>
+      </sprint_capacity>
+    </output>
+  </example>
+</prompt>

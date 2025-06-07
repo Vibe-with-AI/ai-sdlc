@@ -1,0 +1,82 @@
+# AI Shell Prompts Directory
+
+This directory houses reusable prompt templates for various AI-powered development workflow tasks. All prompts are now structured in XML format for consistency and enhanced tool integration.
+
+## Prompt Structure
+
+All prompts follow a standardized XML schema:
+
+```xml
+<prompt>
+  <task>Brief description of what the prompt accomplishes</task>
+
+  <tools_available>
+    <tool_reference source=".aishell/refs/available-tools.xml">
+      <tool name="tool_name" usage="Description of how this tool is used" />
+    </tool_reference>
+  </tools_available>
+
+  <instructions>
+    <step number="1">
+      <title>Step Title</title>
+      <description>Detailed description of the step</description>
+    </step>
+    <!-- Additional steps -->
+  </instructions>
+
+  <input>
+    <!-- Input parameters -->
+  </input>
+
+  <example>
+    <!-- Example input and output -->
+  </example>
+</prompt>
+```
+
+## Available Tools
+
+All prompts have access to comprehensive MCP (Model Context Protocol) tools documented in `.aishell/refs/available-tools.xml`:
+
+- **Context7 MCP**: Up-to-date documentation and code examples for any library or framework
+- **GitHub MCP**: Complete GitHub API integration for repository management and automation
+- **Sequential Thinking MCP**: Structured problem-solving and analysis capabilities
+
+## Prompt Files
+
+### Core Workflow Prompts
+
+1. **1-idea-to-prd.md**: Transforms ideas into structured Product Requirements Documents (PRDs)
+2. **2-prd-chunking.md**: Analyzes and divides PRDs into logical chunks for parallel processing
+3. **3-stakeholder-validation.md**: Validates PRD chunks for completeness and clarity
+4. **4-backlog-refinement.md**: Generates user stories with acceptance criteria and technical tasks
+5. **5-capacity-planning.md**: Plans team capacity for sprints based on historical data and constraints
+6. **6-sprint-planning.md**: Creates detailed sprint plans with task assignments and branch strategies
+
+### Utility Prompts
+
+- **validate_chunk.md**: General-purpose chunk validation with technical feasibility analysis
+
+### Sample Files
+
+The `samples/` directory contains example XML outputs for each prompt, demonstrating the expected structure and format.
+
+## Workflow Integration
+
+The prompts are designed to work sequentially in an AI-powered development pipeline:
+
+1. **Idea → PRD**: Transform concepts into structured requirements
+2. **PRD → Chunks**: Break down requirements for parallel processing
+3. **Chunks → Validation**: Ensure completeness and technical feasibility
+4. **Chunks → Stories**: Generate implementable user stories
+5. **Stories → Capacity**: Plan team capacity and sprint scope
+6. **Stories → Sprint**: Create detailed execution plans
+
+Each prompt leverages the available MCP tools to:
+- Verify technical details with Context7
+- Store outputs and manage repositories with GitHub MCP
+- Perform structured analysis with Sequential Thinking MCP
+
+## Usage
+
+Prompts can be executed by AI agents or development tools that support the MCP protocol. The standardized XML format ensures consistent parsing and execution across different environments.

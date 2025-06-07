@@ -1,0 +1,51 @@
+<prompt>
+  <task>
+    Transform the following idea into a concise Product Requirements Document (PRD).
+  </task>
+  <input>
+    <idea>
+      {IDEA_CONTENT}
+    </idea>
+  </input>
+  <instructions>
+    - Analyze the idea to identify core objectives, target users, and desired features.
+    - Define the scope, listing in-scope features and explicitly out-of-scope items.
+    - Specify technical requirements, including key libraries, APIs, and file paths (read-only: {CODEBASE_FILES}, writeable: {WRITEABLE_FILES}).
+    - Structure the PRD with sections for executive summary, objectives, features, technical requirements, and success metrics.
+  </instructions>
+  <output_format>
+    <prd>
+      <title>{TITLE}</title>
+      <executive_summary>{SUMMARY}</executive_summary>
+      <objectives>
+        <objective>{OBJECTIVE_1}</objective>
+        <!-- More objectives -->
+      </objectives>
+      <features>
+        <feature name="{FEATURE_NAME}">
+          <description>{DESCRIPTION}</description>
+          <!-- Other details -->
+        </feature>
+        <!-- More features -->
+      </features>
+      <technical_requirements>
+        <libraries>{LIBRARIES}</libraries>
+        <file_paths>
+          <read_only>
+            <file>{FILE_PATH}</file>
+            <!-- More read-only files -->
+          </read_only>
+          <writeable>
+            <file>{FILE_PATH}</file>
+            <!-- More writeable files -->
+          </writeable>
+        </file_paths>
+        <!-- Other technical requirements -->
+      </technical_requirements>
+      <success_metrics>
+        <metric>{METRIC}</metric>
+        <!-- More metrics -->
+      </success_metrics>
+    </prd>
+  </output_format>
+</prompt>

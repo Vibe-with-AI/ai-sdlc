@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<available_tools>
+  <description>
+    Comprehensive documentation of available MCP (Model Context Protocol) tools for AI-powered development workflows.
+    These tools provide seamless integration with external services and enhanced problem-solving capabilities.
+  </description>
+
+  <tool name="context7_mcp">
+    <summary>Up-to-date code documentation and examples for any library or framework</summary>
+    <description>
+      Context7 MCP pulls up-to-date, version-specific documentation and code examples straight from the source
+      and places them directly into your prompt context. Eliminates outdated training data and hallucinated APIs.
+    </description>
+
+    <capabilities>
+      <capability>Fetch current documentation for libraries and frameworks</capability>
+      <capability>Provide version-specific code examples</capability>
+      <capability>Access real-time API documentation</capability>
+      <capability>Resolve library names to Context7-compatible IDs</capability>
+      <capability>Focus documentation on specific topics</capability>
+    </capabilities>
+
+    <tools>
+      <tool_function name="resolve-library-id">
+        <description>Resolves a general library name into a Context7-compatible library ID</description>
+        <parameters>
+          <parameter name="libraryName" type="string" required="true">The name of the library to search for</parameter>
+        </parameters>
+      </tool_function>
+
+      <tool_function name="get-library-docs">
+        <description>Fetches documentation for a library using a Context7-compatible library ID</description>
+        <parameters>
+          <parameter name="context7CompatibleLibraryID" type="string" required="true">
+            Exact Context7-compatible library ID (e.g., /mongodb/docs, /vercel/next.js)
+          </parameter>
+          <parameter name="topic" type="string" required="false">
+            Focus the docs on a specific topic (e.g., "routing", "hooks")
+          </parameter>
+          <parameter name="tokens" type="integer" required="false" default="10000">
+            Max number of tokens to return. Values less than 10000 are automatically increased to 10000.
+          </parameter>
+        </parameters>
+      </tool_function>
+    </tools>
+
+    <usage_examples>
+      <example>
+        <description>Get Next.js documentation focused on routing</description>
+        <prompt>Create a basic Next.js project with app router. use context7</prompt>
+      </example>
+      <example>
+        <description>Get PostgreSQL documentation for database operations</description>
+        <prompt>Create a script to delete rows where city is "" given PostgreSQL credentials. use context7</prompt>
+      </example>
+    </usage_examples>
+
+    <best_practices>
+      <practice>Add "use context7" to your prompts to automatically fetch relevant documentation</practice>
+      <practice>Be specific about the topic when requesting focused documentation</practice>
+      <practice>Use resolve-library-id first if you're unsure of the exact library ID format</practice>
+      <practice>Context7 maintains real-time indexes, so results reflect current state</practice>
+    </best_practices>
+  </tool>
+
+  <tool name="github_mcp">
+    <summary>Comprehensive GitHub API integration for repository management and automation</summary>
+    <description>
+      The GitHub MCP Server provides seamless integration with GitHub APIs, enabling advanced automation
+      and interaction capabilities for developers and tools. Supports full CRUD operations on repositories,
+      issues, pull requests, and more.
+    </description>
+
+    <capabilities>
+      <capability>Repository management (create, fork, branch operations)</capability>
+      <capability>File operations (create, update, read, push multiple files)</capability>
+      <capability>Issue management (create, update, comment, search)</capability>
+      <capability>Pull request operations (create, merge, review, comment)</capability>
+      <capability>Code security (scanning alerts, secret scanning)</capability>
+      <capability>User and organization management</capability>
+      <capability>Notification management</capability>
+      <capability>Search across repositories, code, issues, and users</capability>
+    </capabilities>
+
+    <toolsets>
+      <toolset name="repos" description="Repository-related tools (file operations, branches, commits)" />
+      <toolset name="issues" description="Issue-related tools (create, read, update, comment)" />
+      <toolset name="users" description="Anything relating to GitHub Users" />
+      <toolset name="pull_requests" description="Pull request operations (create, merge, review)" />
+      <toolset name="code_security" description="Code scanning alerts and security features" />
+      <toolset name="experiments" description="Experimental features (not considered stable)" />
+    </toolsets>
+
+    <key_tools>
+      <tool_group name="Repository Operations">
+        <tool_function name="create_or_update_file">
+          <description>Create or update a single file in a repository</description>
+          <parameters>
+            <parameter name="owner" type="string" required="true">Repository owner</parameter>
+            <parameter name="repo" type="string" required="true">Repository name</parameter>
+            <parameter name="path" type="string" required="true">File path</parameter>
+            <parameter name="message" type="string" required="true">Commit message</parameter>
+            <parameter name="content" type="string" required="true">File content</parameter>
+            <parameter name="branch" type="string" required="false">Branch name</parameter>
+            <parameter name="sha" type="string" required="false">File SHA if updating</parameter>
+          </parameters>
+        </tool_function>
+
+        <tool_function name="push_files">
+          <description>Push multiple files in a single commit</description>
+          <parameters>
+            <parameter name="owner" type="string" required="true">Repository owner</parameter>
+            <parameter name="repo" type="string" required="true">Repository name</parameter>
+            <parameter name="branch" type="string" required="true">Branch to push to</parameter>
+            <parameter name="files" type="array" required="true">Files to push, each with path and content</parameter>
+            <parameter name="message" type="string" required="true">Commit message</parameter>
+          </parameters>
+        </tool_function>
+
+        <tool_function name="get_file_contents">
+          <description>Get contents of a file or directory</description>
+          <parameters>
+            <parameter name="owner" type="string" required="true">Repository owner</parameter>
+            <parameter name="repo" type="string" required="true">Repository name</parameter>
+            <parameter name="path" type="string" required="true">File path</parameter>
+            <parameter name="ref" type="string" required="false">Git reference</parameter>
+          </parameters>
+        </tool_function>
+      </tool_group>
+
+      <tool_group name="Issue Management">
+        <tool_function name="create_issue">
+          <description>Create a new issue in a GitHub repository</description>
+          <parameters>
+            <parameter name="owner" type="string" required="true">Repository owner</parameter>
+            <parameter name="repo" type="string" required="true">Repository name</parameter>
+            <parameter name="title" type="string" required="true">Issue title</parameter>
+            <parameter name="body" type="string" required="false">Issue body content</parameter>
+            <parameter name="assignees" type="array" required="false">Usernames to assign to this issue</parameter>
+            <parameter name="labels" type="array" required="false">Labels to apply to this issue</parameter>
+          </parameters>
+        </tool_function>
+
+        <tool_function name="update_issue">
+          <description>Update an existing issue in a GitHub repository</description>
+          <parameters>
+            <parameter name="owner" type="string" required="true">Repository owner</parameter>
+            <parameter name="repo" type="string" required="true">Repository name</parameter>
+            <parameter name="issue_number" type="number" required="true">Issue number to update</parameter>
+            <parameter name="title" type="string" required="false">New title</parameter>
+            <parameter name="body" type="string" required="false">New description</parameter>
+            <parameter name="state" type="string" required="false">New state ('open' or 'closed')</parameter>
+            <parameter name="labels" type="array" required="false">New labels</parameter>
+            <parameter name="assignees" type="array" required="false">New assignees</parameter>
+          </parameters>
+        </tool_function>
+      </tool_group>
+
+      <tool_group name="Pull Request Operations">
+        <tool_function name="create_pull_request">
+          <description>Create a new pull request</description>
+          <parameters>
+            <parameter name="owner" type="string" required="true">Repository owner</parameter>
+            <parameter name="repo" type="string" required="true">Repository name</parameter>
+            <parameter name="title" type="string" required="true">PR title</parameter>
+            <parameter name="body" type="string" required="false">PR description</parameter>
+            <parameter name="head" type="string" required="true">Branch containing changes</parameter>
+            <parameter name="base" type="string" required="true">Branch to merge into</parameter>
+            <parameter name="draft" type="boolean" required="false">Create as draft PR</parameter>
+          </parameters>
+        </tool_function>
+
+        <tool_function name="merge_pull_request">
+          <description>Merge a pull request</description>
+          <parameters>
+            <parameter name="owner" type="string" required="true">Repository owner</parameter>
+            <parameter name="repo" type="string" required="true">Repository name</parameter>
+            <parameter name="pullNumber" type="number" required="true">Pull request number</parameter>
+            <parameter name="commit_title" type="string" required="false">Title for the merge commit</parameter>
+            <parameter name="commit_message" type="string" required="false">Message for the merge commit</parameter>
+            <parameter name="merge_method" type="string" required="false">Merge method</parameter>
+          </parameters>
+        </tool_function>
+      </tool_group>
+    </key_tools>
+
+    <configuration>
+      <environment_variables>
+        <variable name="GITHUB_PERSONAL_ACCESS_TOKEN" required="true">
+          GitHub Personal Access Token with appropriate permissions
+        </variable>
+        <variable name="GITHUB_TOOLSETS" required="false">
+          Comma-separated list of toolsets to enable (default: all)
+        </variable>
+        <variable name="GITHUB_READ_ONLY" required="false">
+          Set to "1" to enable read-only mode
+        </variable>
+        <variable name="GITHUB_HOST" required="false">
+          Custom GitHub host for Enterprise Server or Enterprise Cloud
+        </variable>
+      </environment_variables>
+    </configuration>
+
+    <best_practices>
+      <practice>Use specific toolsets to reduce context size and improve tool choice</practice>
+      <practice>Enable read-only mode when only querying data</practice>
+      <practice>Batch file operations using push_files for multiple changes</practice>
+      <practice>Always verify repository permissions before performing write operations</practice>
+      <practice>Use search functions to find existing issues/PRs before creating new ones</practice>
+    </best_practices>
+  </tool>
+
+  <tool name="sequential_thinking_mcp">
+    <summary>Dynamic and reflective problem-solving through structured thinking processes</summary>
+    <description>
+      An MCP server implementation that provides a tool for dynamic and reflective problem-solving through
+      a structured thinking process. Enables breaking down complex problems, revising thoughts, and
+      branching into alternative reasoning paths.
+    </description>
+
+    <capabilities>
+      <capability>Break down complex problems into manageable steps</capability>
+      <capability>Revise and refine thoughts as understanding deepens</capability>
+      <capability>Branch into alternative paths of reasoning</capability>
+      <capability>Adjust the total number of thoughts dynamically</capability>
+      <capability>Generate and verify solution hypotheses</capability>
+      <capability>Maintain context over multiple thinking steps</capability>
+      <capability>Filter out irrelevant information during analysis</capability>
+    </capabilities>
+
+    <tools>
+      <tool_function name="sequential_thinking">
+        <description>Facilitates a detailed, step-by-step thinking process for problem-solving and analysis</description>
+        <parameters>
+          <parameter name="thought" type="string" required="true">The current thinking step</parameter>
+          <parameter name="nextThoughtNeeded" type="boolean" required="true">Whether another thought step is needed</parameter>
+          <parameter name="thoughtNumber" type="integer" required="true">Current thought number</parameter>
+          <parameter name="totalThoughts" type="integer" required="true">Estimated total thoughts needed</parameter>
+          <parameter name="isRevision" type="boolean" required="false">Whether this revises previous thinking</parameter>
+          <parameter name="revisesThought" type="integer" required="false">Which thought is being reconsidered</parameter>
+          <parameter name="branchFromThought" type="integer" required="false">Branching point thought number</parameter>
+          <parameter name="branchId" type="string" required="false">Branch identifier</parameter>
+          <parameter name="needsMoreThoughts" type="boolean" required="false">If more thoughts are needed</parameter>
+        </parameters>
+      </tool_function>
+    </tools>
+
+    <use_cases>
+      <use_case>Breaking down complex problems into steps</use_case>
+      <use_case>Planning and design with room for revision</use_case>
+      <use_case>Analysis that might need course correction</use_case>
+      <use_case>Problems where the full scope might not be clear initially</use_case>
+      <use_case>Tasks that need to maintain context over multiple steps</use_case>
+      <use_case>Situations where irrelevant information needs to be filtered out</use_case>
+      <use_case>Identifying ambiguities and cross-cutting concerns in requirements</use_case>
+      <use_case>Simulating stakeholder feedback and validation scenarios</use_case>
+    </use_cases>
+
+    <workflow_patterns>
+      <pattern name="Linear Thinking">
+        <description>Sequential progression through thoughts without branching</description>
+        <steps>
+          <step>Start with thought 1, estimate total thoughts needed</step>
+          <step>Progress through thoughts sequentially</step>
+          <step>Adjust total thoughts if scope changes</step>
+          <step>Continue until problem is solved</step>
+        </steps>
+      </pattern>
+
+      <pattern name="Revision Thinking">
+        <description>Revisiting and refining previous thoughts</description>
+        <steps>
+          <step>Identify which previous thought needs revision</step>
+          <step>Set isRevision=true and specify revisesThought number</step>
+          <step>Provide refined thinking for that step</step>
+          <step>Continue with updated understanding</step>
+        </steps>
+      </pattern>
+
+      <pattern name="Branching Thinking">
+        <description>Exploring alternative reasoning paths</description>
+        <steps>
+          <step>Identify branching point in previous thoughts</step>
+          <step>Set branchFromThought and provide unique branchId</step>
+          <step>Explore alternative reasoning path</step>
+          <step>Compare outcomes of different branches</step>
+        </steps>
+      </pattern>
+    </workflow_patterns>
+
+    <best_practices>
+      <practice>Start with a reasonable estimate of total thoughts, but be prepared to adjust</practice>
+      <practice>Use revision when new information changes your understanding of previous steps</practice>
+      <practice>Branch when you want to explore alternative approaches without losing the main path</practice>
+      <practice>Be explicit about what each thought accomplishes</practice>
+      <practice>Use the tool for complex analysis where step-by-step reasoning adds value</practice>
+      <practice>Don't use for simple, straightforward tasks that don't benefit from structured thinking</practice>
+    </best_practices>
+  </tool>
+
+  <integration_guidelines>
+    <guideline>
+      <title>Tool Combination Strategies</title>
+      <description>
+        These tools work synergistically to create powerful AI-assisted workflows:
+        - Use Context7 to get up-to-date documentation before implementing solutions
+        - Use Sequential Thinking to break down complex requirements and identify dependencies
+        - Use GitHub MCP to store outputs, manage repositories, and track progress
+        - Combine all three for comprehensive project management and development workflows
+      </description>
+    </guideline>
+
+    <guideline>
+      <title>Workflow Integration</title>
+      <description>
+        Typical workflow pattern:
+        1. Use Sequential Thinking to analyze and break down requirements
+        2. Use Context7 to verify technical feasibility and get current documentation
+        3. Use GitHub MCP to store analysis results and manage implementation
+        4. Iterate through the cycle as understanding deepens and requirements evolve
+      </description>
+    </guideline>
+  </integration_guidelines>
+
+  <reference_usage>
+    <instruction>
+      To reference these tools in prompts, include: "You have access to the following MCP tools as documented in .aishell/refs/available-tools.xml:"
+      followed by specific tool names relevant to the task.
+    </instruction>
+
+    <template>
+      <![CDATA[
+      <tools_available>
+        <tool_reference source=".aishell/refs/available-tools.xml">
+          <tool name="context7_mcp" />
+          <tool name="github_mcp" />
+          <tool name="sequential_thinking_mcp" />
+        </tool_reference>
+      </tools_available>
+      ]]>
+    </template>
+  </reference_usage>
+</available_tools>

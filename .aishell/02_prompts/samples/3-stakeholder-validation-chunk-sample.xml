@@ -1,0 +1,21 @@
+<stakeholder_validation>
+    <chunk>
+        <id>chunk_1</id>
+        <name>Prompts Router</name>
+        <summary>This chunk specifies the Prompts tRPC router for `/prompts` page, enabling CRUD operations, likes, and search with tRPC, Zod, and Drizzle-ORM. It targets the `prompts` and `prompt_likes` tables, optimized for performance. (Verified with Context7 MCP.)</summary>
+        <ambiguities>
+            <item>Indexing strategy for `prompts.title` is unspecified.</item>
+            <item>Unclear if prompt search includes tag filtering.</item>
+        </ambiguities>
+        <clarifications>
+            <question>Should `prompts.title` use full-text indexing for search?</question>
+            <question>Does search include tag-based filtering?</question>
+            <question>Assume batch embedding generation for prompts?</question>
+        </clarifications>
+        <github_commit_instructions>
+            <command>git add prompts/validation.md</command>
+            <command>git commit -m "Validate PRD chunks"</command>
+            <command>git push origin main</command>
+        </github_commit_instructions>
+    </chunk>
+</stakeholder_validation>

@@ -1,0 +1,77 @@
+<user_stories>
+    <chunk_id>chunk_1</chunk_id>
+
+    <features>
+        <feature name="Prompts Router">CRUD operations, likes, and search for `/prompts` page using tRPC.</feature>
+    </features>
+
+    <stories>
+        <story id="1">
+            <title>Create Prompt</title>
+            <description>As a VAI user, I want to create a prompt so that I can share it with the community.</description>
+            <acceptance_criteria>
+                <criterion>Prompt saved with title, content, category, tags, and visibility.</criterion>
+                <criterion>User credited as author.</criterion>
+                <criterion>Public prompts appear in feed.</criterion>
+            </acceptance_criteria>
+            <tasks>
+                <task>Implement `createPrompt` procedure in `prompts.ts`.</task>
+                <task>Define `createPromptSchema` with Zod.</task>
+                <task>Insert prompt into `prompts` table with Drizzle.</task>
+                <task>Update frontend to call `createPrompt`.</task>
+            </tasks>
+            <libraries>tRPC, Zod, Drizzle-ORM</libraries>
+            <file_paths>
+                <read_only>
+                    <file>apps/api/src/db/schema.ts</file>
+                    <file>apps/web/src/app/prompts/page.tsx</file>
+                </read_only>
+                <writeable>
+                    <file>apps/api/src/trpc/routers/prompts.ts</file>
+                    <file>apps/web/src/lib/api-client.ts</file>
+                </writeable>
+            </file_paths>
+            <priority>Critical</priority>
+            <story_points>3</story_points>
+        </story>
+
+        <story id="2">
+            <title>Search Prompts</title>
+            <description>As a VAI user, I want to search prompts by title or tags so that I can find relevant prompts.</description>
+            <acceptance_criteria>
+                <criterion>Search returns paginated results (&lt;100ms).</criterion>
+                <criterion>Tag filter limits results.</criterion>
+                <criterion>Results include author and likes.</criterion>
+            </acceptance_criteria>
+            <tasks>
+                <task>Implement `getPrompts` procedure with filters.</task>
+                <task>Define `promptsQuerySchema` with Zod.</task>
+                <task>Add full-text index to `prompts.title`.</task>
+                <task>Query `prompts` and `users` tables.</task>
+                <task>Update frontend search component.</task>
+            </tasks>
+            <libraries>tRPC, Zod, Drizzle-ORM</libraries>
+            <file_paths>
+                <read_only>
+                    <file>apps/api/src/db/schema.ts</file>
+                    <file>apps/web/src/app/prompts/page.tsx</file>
+                </read_only>
+                <writeable>
+                    <file>apps/api/src/trpc/routers/prompts.ts</file>
+                    <file>apps/api/src/db/migrations/index_prompts_title.sql</file>
+                    <file>apps/web/src/components/prompt-search.tsx</file>
+                </writeable>
+            </file_paths>
+            <priority>High</priority>
+            <story_points>5</story_points>
+        </story>
+    </stories>
+
+    <github_commit_instructions>
+        <commands>
+            <command>git add prompts/stories.md</command>
+            <command>git commit -m "Generate user stories from PRD chunks"</command>
+            <command>git push origin main</command>
+        </commands>
+    </github_commit_instructions>
+</user_stories>

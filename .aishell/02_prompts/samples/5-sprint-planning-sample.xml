@@ -1,0 +1,99 @@
+<sprint_plan>
+    <name>Migrate REST to tRPC (Sprint 1)</name>
+
+    <sprint_goal>Implement the Prompts tRPC router to enable `/prompts` page functionality, replacing REST APIs.</sprint_goal>
+
+    <selected_stories>
+        <story>
+            <title>Create Prompt</title>
+            <points>3</points>
+            <priority>Critical</priority>
+        </story>
+        <story>
+            <title>Search Prompts</title>
+            <points>5</points>
+            <priority>High</priority>
+        </story>
+    </selected_stories>
+
+    <task_assignments>
+        <story id="1">
+            <title>Create Prompt</title>
+            <tasks>
+                <task>
+                    <agent>Agent_1</agent>
+                    <role>Backend</role>
+                    <description>Implement `createPrompt`</description>
+                    <libraries>tRPC, Zod, Drizzle-ORM</libraries>
+                    <file_paths>
+                        <read_only>apps/api/src/db/schema.ts</read_only>
+                        <writeable>apps/api/src/trpc/routers/prompts.ts</writeable>
+                    </file_paths>
+                </task>
+                <task>
+                    <agent>Agent_2</agent>
+                    <role>Frontend</role>
+                    <description>Update frontend to call `createPrompt`</description>
+                    <libraries>tRPC, React Query</libraries>
+                    <file_paths>
+                        <read_only>apps/web/src/app/prompts/page.tsx</read_only>
+                        <writeable>apps/web/src/lib/api-client.ts</writeable>
+                    </file_paths>
+                </task>
+            </tasks>
+        </story>
+
+        <story id="2">
+            <title>Search Prompts</title>
+            <tasks>
+                <task>
+                    <agent>Agent_3</agent>
+                    <role>Backend</role>
+                    <description>Implement `getPrompts`</description>
+                    <libraries>tRPC, Zod, Drizzle-ORM</libraries>
+                    <file_paths>
+                        <read_only>apps/api/src/db/schema.ts</read_only>
+                        <writeable>apps/api/src/trpc/routers/prompts.ts</writeable>
+                    </file_paths>
+                </task>
+                <task>
+                    <agent>Agent_4</agent>
+                    <role>DB</role>
+                    <description>Add index for `prompts.title`</description>
+                    <libraries>Drizzle-ORM</libraries>
+                    <file_paths>
+                        <read_only>apps/api/src/db/schema.ts</read_only>
+                        <writeable>apps/api/src/db/migrations/index_prompts_title.sql</writeable>
+                    </file_paths>
+                </task>
+                <task>
+                    <agent>Agent_5</agent>
+                    <role>Frontend</role>
+                    <description>Update search component</description>
+                    <libraries>tRPC, React Query</libraries>
+                    <file_paths>
+                        <read_only>apps/web/src/app/prompts/page.tsx</read_only>
+                        <writeable>apps/web/src/components/prompt-search.tsx</writeable>
+                    </file_paths>
+                </task>
+            </tasks>
+        </story>
+    </task_assignments>
+
+    <branch_strategy>
+        <story id="1">
+            <branch>main</branch>
+        </story>
+        <story id="2">
+            <branch>sprint-indexing</branch>
+            <reason>DB indexing</reason>
+        </story>
+    </branch_strategy>
+
+    <github_commit_instructions>
+        <command>git checkout sprint-indexing</command>
+        <command>git add .ai/doing/migrate-rest-to-trpc/migrate-rest-to-trpc.sprint1.md</command>
+        <command>git commit -m "Sprint plan for tRPC migration sprint 1"</command>
+        <command>git push origin sprint-indexing</command>
+    </github_commit_instructions>
+</sprint_plan>

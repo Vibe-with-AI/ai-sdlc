@@ -1,0 +1,131 @@
+<prompt>
+  <task>
+    Prepare a Product Requirements Document (PRD) for processing by a 5-agent team (Product Owner, Scrum Master, 2 Builders, 1 Reviewer) by analyzing structure, identifying cross-cutting concerns, and dividing into logical chunks for parallel processing.
+  </task>
+
+  <tools_available>
+    <tool_reference source=".aishell/refs/available-tools.xml">
+      <tool name="context7_mcp" usage="For accessing documentation on APIs/libraries and verifying technical details" />
+      <tool name="github_mcp" usage="For CRUD operations to store outputs and reference codebase files" />
+      <tool name="sequential_thinking_mcp" usage="For analyzing PRD structure, identifying cross-cutting functionality, and dividing logically" />
+    </tool_reference>
+  </tools_available>
+
+  <instructions>
+    <step number="1">
+      <title>Analyze PRD Structure</title>
+      <description>Identify logical sections (e.g., features, technical requirements) and cross-cutting functionality (e.g., shared middleware, schemas, database dependencies) using Sequential Thinking MCP. Reference codebase files for context.</description>
+    </step>
+    <step number="2">
+      <title>Identify Cross-Cutting Concerns</title>
+      <description>List shared components that span multiple features, verifying with Context7 MCP Server.</description>
+    </step>
+    <step number="3">
+      <title>Chunk PRD</title>
+      <description>Divide into 2-3 logical sections for parallel processing by 5 agents, ensuring:
+        - Each chunk is self-contained but references cross-cutting concerns
+        - Chunks are balanced for complexity
+        - Total size per chunk is ~3-5k tokens, adjustable for coherence
+        - Assign unique identifiers
+      </description>
+    </step>
+    <step number="4">
+      <title>Summarize Chunks</title>
+      <description>Provide a 50-100 word summary per chunk, including cross-cutting dependencies, verified with Context7 MCP Server.</description>
+    </step>
+    <step number="5">
+      <title>Store Output</title>
+      <description>Format as markdown files in repository path. Update index file with chunk entries (type: chunk, status: backlog, linked to PRD ID). Provide GitHub commit instructions.</description>
+    </step>
+    <step number="6">
+      <title>Output Format</title>
+      <description>Structured markdown with sections for chunk ID, summary, content, cross-cutting dependencies, index updates, and commit instructions.</description>
+    </step>
+  </instructions>
+
+  <input>
+    <prd_content>{PRD_CONTENT}</prd_content>
+    <codebase_files>{CODEBASE_FILES}</codebase_files>
+    <writeable_files>{WRITEABLE_FILES}</writeable_files>
+    <repo_path>{REPO_PATH}</repo_path>
+    <index_file>{INDEX_FILE}</index_file>
+    <branch_name>{BRANCH_NAME}</branch_name>
+    <prd_id>{PRD_ID}</prd_id>
+  </input>
+
+  <example>
+    <input>
+      <prd_content><![CDATA[<prd><title>PRD: tRPC Migration for Prompts and Integrations</title><features><feature name="Prompts Router"><description>CRUD operations, likes, and search for prompts.</description><database_tables>prompts, prompt_likes</database_tables></feature><feature name="Integrations Router"><description>API key management for AI providers.</description><database_tables>user_api_keys</database_tables></feature></features><technical_requirements><libraries>tRPC, Zod, Drizzle-ORM, Supabase</libraries></technical_requirements></prd>]]></prd_content>
+      <codebase_files>apps/api/src/db/schema.ts, apps/web/src/app/prompts/page.tsx</codebase_files>
+      <writeable_files>apps/api/src/trpc/routers/prompts.ts, apps/api/src/trpc/routers/integrations.ts, apps/web/src/lib/api-client.ts</writeable_files>
+      <repo_path>.ai/backlog/</repo_path>
+      <index_file>.ai/index.yml</index_file>
+      <branch_name>main</branch_name>
+      <prd_id>prd-001</prd_id>
+    </input>
+
+    <output>
+      <chunk id="chunk_1">
+        <summary>This chunk covers the Prompts tRPC router for `/prompts` page, enabling CRUD operations, likes, and search with tRPC, Zod, and Drizzle-ORM. It targets `prompts` and `prompt_likes` tables. Cross-cutting: Shared Zod schemas and tRPC middleware with Integrations Router. (Verified with Context7 MCP.)</summary>
+        <content>
+          <feature name="Prompts Router">
+            <description>CRUD operations, likes, search</description>
+            <database_tables>prompts, prompt_likes</database_tables>
+          </feature>
+        </content>
+        <cross_cutting_dependencies>
+          <dependency>Shared Zod schema utilities in `apps/api/src/trpc/utils`</dependency>
+          <dependency>tRPC middleware for auth in `apps/api/src/trpc/middleware`</dependency>
+        </cross_cutting_dependencies>
+        <index_updates>
+          <![CDATA[
+chunk_1:
+  id: chunk_1
+  type: chunk
+  status: backlog
+  linked_prd: prd-001
+  source_file: .ai/backlog/chunk_1.chunk.md
+          ]]>
+        </index_updates>
+        <commit_instructions>
+          <![CDATA[
+git add .ai/backlog/chunk_1.chunk.md .ai/index.yml
+git commit -m "Chunk PRD for Prompts Router with cross-cutting analysis"
+git push origin main
+          ]]>
+        </commit_instructions>
+      </chunk>
+
+      <chunk id="chunk_2">
+        <summary>This chunk covers the Integrations tRPC router for `/integrations` page, enabling API key management with tRPC, Zod, and Drizzle-ORM. It targets `user_api_keys` table. Cross-cutting: Shared Zod schemas and tRPC middleware with Prompts Router. (Verified with Context7 MCP.)</summary>
+        <content>
+          <feature name="Integrations Router">
+            <description>API key management</description>
+            <database_tables>user_api_keys</database_tables>
+          </feature>
+        </content>
+        <cross_cutting_dependencies>
+          <dependency>Shared Zod schema utilities in `apps/api/src/trpc/utils`</dependency>
+          <dependency>tRPC middleware for auth in `apps/api/src/trpc/middleware`</dependency>
+        </cross_cutting_dependencies>
+        <index_updates>
+          <![CDATA[
+chunk_2:
+  id: chunk_2
+  type: chunk
+  status: backlog
+  linked_prd: prd-001
+  source_file: .ai/backlog/chunk_2.chunk.md
+          ]]>
+        </index_updates>
+        <commit_instructions>
+          <![CDATA[
+git add .ai/backlog/chunk_2.chunk.md .ai/index.yml
+git commit -m "Chunk PRD for Integrations Router with cross-cutting analysis"
+git push origin main
+          ]]>
+        </commit_instructions>
+      </chunk>
+    </output>
+  </example>
+</prompt>

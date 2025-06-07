@@ -1,0 +1,167 @@
+<prompt>
+  <task>
+    Generate user stories from a validated PRD chunk for a 5-agent team (Product Owner, Scrum Master, 2 Builders, 1 Reviewer) by extracting features, creating stories with acceptance criteria, defining technical tasks, and estimating effort.
+  </task>
+
+  <tools_available>
+    <tool_reference source=".aishell/refs/available-tools.xml">
+      <tool name="context7_mcp" usage="For verifying APIs/libraries and technical details" />
+      <tool name="github_mcp" usage="For CRUD operations to store outputs and reference codebase files" />
+      <tool name="sequential_thinking_mcp" usage="For creating atomic user stories and estimating effort" />
+    </tool_reference>
+  </tools_available>
+
+  <instructions>
+    <step number="1">
+      <title>Extract Features</title>
+      <description>List key features from the chunk, including cross-cutting concerns, using Context7 MCP Server.</description>
+    </step>
+    <step number="2">
+      <title>Create User Stories</title>
+      <description>Write 2-3 stories per feature: "As a [USER_TYPE], I want [FUNCTIONALITY] so that [BENEFIT]." Include 2-3 testable acceptance criteria.</description>
+    </step>
+    <step number="3">
+      <title>Define Technical Tasks</title>
+      <description>For each story, list:
+        - 3-5 atomic tasks
+        - Libraries/APIs
+        - Read-only and writeable file paths
+      </description>
+    </step>
+    <step number="4">
+      <title>Prioritize Stories</title>
+      <description>Assign priority (Critical, High, Medium, Low) based on impact and dependencies.</description>
+    </step>
+    <step number="5">
+      <title>Estimate Effort</title>
+      <description>Assign story points (1, 2, 3, 5, 8) using Sequential Thinking MCP.</description>
+    </step>
+    <step number="6">
+      <title>Store Output</title>
+      <description>Format as markdown in repository path. Update index file with story entries (type: story, status: ready, linked to chunk ID). Provide GitHub commit instructions.</description>
+    </step>
+    <step number="7">
+      <title>Output Format</title>
+      <description>Structured markdown with sections for chunk ID, features, stories, tasks, libraries, file paths, priorities, story points, index updates, and commit instructions.</description>
+    </step>
+  </instructions>
+
+  <input>
+    <prd_chunk_content>{PRD_CHUNK_CONTENT}</prd_chunk_content>
+    <chunk_id>{CHUNK_ID}</chunk_id>
+    <codebase_files>{CODEBASE_FILES}</codebase_files>
+    <writeable_files>{WRITEABLE_FILES}</writeable_files>
+    <repo_path>{REPO_PATH}</repo_path>
+    <index_file>{INDEX_FILE}</index_file>
+    <branch_name>{BRANCH_NAME}</branch_name>
+  </input>
+
+  <example>
+    <input>
+      <prd_chunk_content><![CDATA[<features><feature name="Prompts Router"><description>CRUD operations, likes, and search for prompts.</description><database_tables>prompts, prompt_likes</database_tables></feature></features>]]></prd_chunk_content>
+      <chunk_id>chunk_1</chunk_id>
+      <codebase_files>apps/api/src/db/schema.ts, apps/web/src/app/prompts/page.tsx</codebase_files>
+      <writeable_files>apps/api/src/trpc/routers/prompts.ts, apps/web/src/lib/api-client.ts</writeable_files>
+      <repo_path>.ai/in_progress/</repo_path>
+      <index_file>.ai/index.yml</index_file>
+      <branch_name>main</branch_name>
+    </input>
+
+    <output>
+      <chunk_id>chunk_1</chunk_id>
+      <features>
+        <feature name="Prompts Router">
+          <description>CRUD operations, likes, and search for `/prompts` page using tRPC</description>
+          <cross_cutting_concerns>Shared Zod schemas and tRPC middleware</cross_cutting_concerns>
+        </feature>
+      </features>
+
+      <stories>
+        <story id="story_1">
+          <title>Create Prompt</title>
+          <description>As a VAI user, I want to create a prompt so that I can share it with the community.</description>
+          <acceptance_criteria>
+            <criterion>Prompt saved with title, content, category, tags, and visibility</criterion>
+            <criterion>User credited as author</criterion>
+            <criterion>Public prompts appear in feed</criterion>
+          </acceptance_criteria>
+          <tasks>
+            <task>Implement `createPrompt` procedure in `prompts.ts`</task>
+            <task>Define `createPromptSchema` with Zod</task>
+            <task>Insert prompt into `prompts` table with Drizzle</task>
+            <task>Update frontend to call `createPrompt`</task>
+          </tasks>
+          <libraries>tRPC, Zod, Drizzle-ORM</libraries>
+          <file_paths>
+            <read_only>
+              <file>apps/api/src/db/schema.ts</file>
+              <file>apps/web/src/app/prompts/page.tsx</file>
+            </read_only>
+            <writeable>
+              <file>apps/api/src/trpc/routers/prompts.ts</file>
+              <file>apps/web/src/lib/api-client.ts</file>
+            </writeable>
+          </file_paths>
+          <priority>Critical</priority>
+          <story_points>3</story_points>
+        </story>
+
+        <story id="story_2">
+          <title>Search Prompts</title>
+          <description>As a VAI user, I want to search prompts by title or tags so that I can find relevant prompts.</description>
+          <acceptance_criteria>
+            <criterion>Search returns paginated results (&lt;100ms)</criterion>
+            <criterion>Tag filter limits results</criterion>
+            <criterion>Results include author and likes</criterion>
+          </acceptance_criteria>
+          <tasks>
+            <task>Implement `getPrompts` procedure with filters</task>
+            <task>Define `promptsQuerySchema` with Zod</task>
+            <task>Add full-text index to `prompts.title`</task>
+            <task>Query `prompts` and `users` tables</task>
+            <task>Update frontend search component</task>
+          </tasks>
+          <libraries>tRPC, Zod, Drizzle-ORM</libraries>
+          <file_paths>
+            <read_only>
+              <file>apps/api/src/db/schema.ts</file>
+              <file>apps/web/src/app/prompts/page.tsx</file>
+            </read_only>
+            <writeable>
+              <file>apps/api/src/trpc/routers/prompts.ts</file>
+              <file>apps/api/src/db/migrations/index_prompts_title.sql</file>
+              <file>apps/web/src/components/prompt-search.tsx</file>
+            </writeable>
+          </file_paths>
+          <priority>High</priority>
+          <story_points>5</story_points>
+        </story>
+      </stories>
+
+      <index_updates>
+        <![CDATA[
+story_1:
+  id: story_1
+  type: story
+  status: ready
+  linked_chunk: chunk_1
+  source_file: .ai/in_progress/chunk_1.story.md
+story_2:
+  id: story_2
+  type: story
+  status: ready
+  linked_chunk: chunk_1
+  source_file: .ai/in_progress/chunk_1.story.md
+        ]]>
+      </index_updates>
+
+      <commit_instructions>
+        <![CDATA[
+git add .ai/in_progress/chunk_1.story.md .ai/index.yml
+git commit -m "Generate user stories for Prompts Router"
+git push origin main
+        ]]>
+      </commit_instructions>
+    </output>
+  </example>
+</prompt>

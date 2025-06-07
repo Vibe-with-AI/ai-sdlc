@@ -1,0 +1,16 @@
+# Use Anthropic's Claude 3.5 Sonnet by default for its large context window and strong reasoning.
+default_lm: anthropic/claude-3.5-sonnet
+
+# Your Anthropic API key. It's best to set this as an environment variable.
+anthropic_api_key: 
+
+# A custom system message to prime the agent.
+system_message: |
+  You are an expert AI pair-programmer.
+  You are working inside a larger automated system.
+  Carefully follow the instructions provided in the user's prompt.
+  Reason step-by-step and think through your plan before making code changes.
+
+# We'll use this later to run linters/tests automatically.
+# hooks:
+#   pre_command: [npm run lint --if-present]

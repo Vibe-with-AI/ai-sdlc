@@ -1,0 +1,178 @@
+<prompt>
+  <task>
+    Plan a 2-week sprint for a 5-agent team (Product Owner, Scrum Master, 2 Builders, 1 Reviewer) in a Rolling Kanban model by defining sprint goals, selecting stories, assigning tasks, and determining branch strategy.
+  </task>
+
+  <tools_available>
+    <tool_reference source=".aishell/refs/available-tools.xml">
+      <tool name="context7_mcp" usage="For accessing API/library documentation" />
+      <tool name="github_mcp" usage="For CRUD operations to store outputs and reference codebase files" />
+      <tool name="sequential_thinking_mcp" usage="For defining sprint goals and assigning tasks" />
+    </tool_reference>
+  </tools_available>
+
+  <instructions>
+    <step number="1">
+      <title>Define Sprint Goal</title>
+      <description>Write a concise goal aligned with PRD objectives.</description>
+    </step>
+    <step number="2">
+      <title>Select Stories</title>
+      <description>Choose up to maximum stories from repository path based on priority and capacity, ensuring cross-cutting concerns are addressed.</description>
+    </step>
+    <step number="3">
+      <title>Assign Tasks</title>
+      <description>Assign tasks to agents, specifying:
+        - Libraries
+        - Read-only and writeable files
+      </description>
+    </step>
+    <step number="4">
+      <title>Determine Branch Strategy</title>
+      <description>Assign branches, checking GitHub for conflicts.</description>
+    </step>
+    <step number="5">
+      <title>Store Output</title>
+      <description>Format as markdown in repository path. Update index file with sprint entries (type: story, status: in_progress). Provide GitHub commit instructions.</description>
+    </step>
+    <step number="6">
+      <title>Output Format</title>
+      <description>Structured markdown with sections for sprint goal, selected stories, task assignments, libraries, file paths, branch strategy, index updates, and commit instructions.</description>
+    </step>
+  </instructions>
+
+  <input>
+    <user_stories>{USER_STORIES}</user_stories>
+    <sprint_goal_name>{SPRINT_GOAL_NAME}</sprint_goal_name>
+    <capacity_points>{CAPACITY_POINTS}</capacity_points>
+    <codebase_files>{CODEBASE_FILES}</codebase_files>
+    <writeable_files>{WRITEABLE_FILES}</writeable_files>
+    <repo_path>{REPO_PATH}</repo_path>
+    <index_file>{INDEX_FILE}</index_file>
+    <branch_name>{BRANCH_NAME}</branch_name>
+    <sprint_number>{SPRINT_NUMBER}</sprint_number>
+    <max_stories>{MAX_STORIES}</max_stories>
+  </input>
+
+  <example>
+    <input>
+      <user_stories><![CDATA[<story id="story_1"><title>Create Prompt</title><points>3</points><priority>Critical</priority></story><story id="story_2"><title>Search Prompts</title><points>5</points><priority>High</priority></story>]]></user_stories>
+      <sprint_goal_name>Migrate REST to tRPC (Sprint 1)</sprint_goal_name>
+      <capacity_points>25</capacity_points>
+      <codebase_files>apps/api/src/db/schema.ts, apps/web/src/app/prompts/page.tsx</codebase_files>
+      <writeable_files>apps/api/src/trpc/routers/prompts.ts, apps/web/src/lib/api-client.ts</writeable_files>
+      <repo_path>.ai/doing/migrate-rest-to-trpc/</repo_path>
+      <index_file>.ai/index.yml</index_file>
+      <branch_name>main</branch_name>
+      <sprint_number>1</sprint_number>
+      <max_stories>5</max_stories>
+    </input>
+
+    <output>
+      <sprint_plan>
+        <sprint_number>1</sprint_number>
+        <sprint_name>Migrate REST to tRPC</sprint_name>
+        <sprint_goal>Implement the Prompts tRPC router to enable `/prompts` page functionality, replacing REST APIs.</sprint_goal>
+
+        <selected_stories>
+          <story id="story_1">
+            <title>Create Prompt</title>
+            <points>3</points>
+            <priority>Critical</priority>
+          </story>
+          <story id="story_2">
+            <title>Search Prompts</title>
+            <points>5</points>
+            <priority>High</priority>
+          </story>
+        </selected_stories>
+
+        <task_assignments>
+          <story_tasks story_id="story_1" title="Create Prompt">
+            <assignment>
+              <agent>Agent_1 (Backend)</agent>
+              <task>Implement `createPrompt` (tRPC, Zod, Drizzle-ORM)</task>
+              <read_only_files>
+                <file>apps/api/src/db/schema.ts</file>
+              </read_only_files>
+              <writeable_files>
+                <file>apps/api/src/trpc/routers/prompts.ts</file>
+              </writeable_files>
+            </assignment>
+            <assignment>
+              <agent>Agent_2 (Frontend)</agent>
+              <task>Update frontend to call `createPrompt` (tRPC, React Query)</task>
+              <read_only_files>
+                <file>apps/web/src/app/prompts/page.tsx</file>
+              </read_only_files>
+              <writeable_files>
+                <file>apps/web/src/lib/api-client.ts</file>
+              </writeable_files>
+            </assignment>
+          </story_tasks>
+
+          <story_tasks story_id="story_2" title="Search Prompts">
+            <assignment>
+              <agent>Agent_3 (Backend)</agent>
+              <task>Implement `getPrompts` (tRPC, Zod, Drizzle-ORM)</task>
+              <read_only_files>
+                <file>apps/api/src/db/schema.ts</file>
+              </read_only_files>
+              <writeable_files>
+                <file>apps/api/src/trpc/routers/prompts.ts</file>
+              </writeable_files>
+            </assignment>
+            <assignment>
+              <agent>Agent_4 (DB)</agent>
+              <task>Add index for `prompts.title` (Drizzle-ORM)</task>
+              <read_only_files>
+                <file>apps/api/src/db/schema.ts</file>
+              </read_only_files>
+              <writeable_files>
+                <file>apps/api/src/db/migrations/index_prompts_title.sql</file>
+              </writeable_files>
+            </assignment>
+            <assignment>
+              <agent>Agent_5 (Frontend)</agent>
+              <task>Update search component (tRPC, React Query)</task>
+              <read_only_files>
+                <file>apps/web/src/app/prompts/page.tsx</file>
+              </read_only_files>
+              <writeable_files>
+                <file>apps/web/src/components/prompt-search.tsx</file>
+              </writeable_files>
+            </assignment>
+          </story_tasks>
+        </task_assignments>
+
+        <branch_strategy>
+          <story_branch story_id="story_1">main</story_branch>
+          <story_branch story_id="story_2">sprint-indexing (DB indexing)</story_branch>
+        </branch_strategy>
+        <index_updates>
+          <![CDATA[
+story_1:
+  id: story_1
+  type: story
+  status: in_progress
+  linked_chunk: chunk_1
+story_2:
+  id: story_2
+  type: story
+  status: in_progress
+  linked_chunk: chunk_1
+          ]]>
+        </index_updates>
+
+        <commit_instructions>
+          <![CDATA[
+git checkout sprint-indexing
+git add .ai/doing/migrate-rest-to-trpc/sprint_1.md .ai/index.yml
+git commit -m "Sprint plan for tRPC migration sprint 1"
+git push origin sprint-indexing
+          ]]>
+        </commit_instructions>
+      </sprint_plan>
+    </output>
+  </example>
+</prompt>
