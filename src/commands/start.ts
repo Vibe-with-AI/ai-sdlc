@@ -2,19 +2,19 @@ import { exec } from "node:child_process";
 import path from "node:path";
 import { Command } from "@oclif/core";
 import * as chokidar from "chokidar";
-import * as Docker from "dockerode";
+// import * as Docker from "dockerode";
 import * as fs from "fs-extra";
 import * as yaml from "js-yaml";
 
 export default class Start extends Command {
-	static description = "Start the aishell services and file watcher";
+	static description = "Start the aisdlc services and file watcher";
 
 	async run(): Promise<void> {
-		const docker = new Docker();
-		await docker.compose.up({ cwd: process.cwd(), log: true });
+		// const docker = new Docker();
+		// await docker.compose.up({ cwd: process.cwd(), log: true });
 
 		const watcher = chokidar.watch(
-			path.join(process.cwd(), ".aishell/03_ideas"),
+			path.join(process.cwd(), ".aisdlc/03_ideas"),
 			{
 				ignored: /(^|\/)\.[^\/]/,
 				persistent: true,
@@ -26,18 +26,18 @@ export default class Start extends Command {
 			this.processIdea(filePath);
 		});
 
-		this.log("aishell services started and watching for new ideas.");
+		this.log("aisdlc services started and watching for new ideas.");
 	}
 
 	private async processIdea(filePath: string) {
 		try {
 			const ideaContent = fs.readFileSync(filePath, "utf8");
-			const refsDir = path.join(process.cwd(), ".aishell/refs");
+			const refsDir = path.join(process.cwd(), ".aisdlc/refs");
 
 			// 1. Idea to PRD using Sequential Thinking MCP
 			const prdContent = await this.ideaToPrd(ideaContent);
 			fs.writeFileSync(
-				path.join(process.cwd(), ".aishell/04_backlog", "PRD.md"),
+				path.join(process.cwd(), ".aisdlc/04_backlog", "PRD.md"),
 				prdContent,
 			);
 			this.log("PRD generated successfully.");
@@ -109,7 +109,7 @@ export default class Start extends Command {
 	}
 	private async runAiderCommand(message: string): Promise<string> {
 		return new Promise((resolve, reject) => {
-			const command = `docker exec -it aishell_aider aider --message "${message}"`;
+			const command = `docker exec -it aisdlc_aider aider --message "${message}"`;
 			exec(command, (error, stdout, stderr) => {
 				if (error) reject(error);
 				else resolve(stdout);

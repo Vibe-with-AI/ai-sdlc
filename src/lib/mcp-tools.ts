@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import axios, { type AxiosError } from "axios";
-import xml2js from "xml2js";
+// import axios, { type AxiosError } from "axios";
+// import xml2js from "xml2js";
 
 // Define parameter interfaces based on available-tools.xml
 interface Context7GetLibraryDocsParams {
@@ -33,12 +33,12 @@ export class MCPTools {
 		const xmlPath = path.join(refsDir, "available-tools.xml");
 		if (fs.existsSync(xmlPath)) {
 			const xmlContent = fs.readFileSync(xmlPath, "utf8");
-			xml2js.parseString(xmlContent, (err, result) => {
-				if (err) {
-					console.error(`Failed to parse available-tools.xml: ${err.message}`);
-				}
-				// Parsed tools available in result.available_tools.tool if needed
-			});
+			// xml2js.parseString(xmlContent, (err, result) => {
+			//	if (err) {
+			//		console.error(`Failed to parse available-tools.xml: ${err.message}`);
+			//	}
+			//	// Parsed tools available in result.available_tools.tool if needed
+			// });
 		}
 	}
 
@@ -48,15 +48,8 @@ export class MCPTools {
 	 * @returns The resolved Context7-compatible library ID
 	 */
 	async resolveLibraryId(libraryName: string): Promise<string> {
-		try {
-			const response = await axios.post(
-				`${this.context7Url}/resolve-library-id`,
-				{ libraryName },
-			);
-			return response.data;
-		} catch (error) {
-			this.handleError("resolveLibraryId", error);
-		}
+		// TODO: Implement when axios is available
+		throw new Error("MCP Tools not yet implemented - missing axios dependency");
 	}
 
 	/**
@@ -65,15 +58,8 @@ export class MCPTools {
 	 * @returns The fetched documentation as a string
 	 */
 	async getLibraryDocs(params: Context7GetLibraryDocsParams): Promise<string> {
-		try {
-			const response = await axios.post(
-				`${this.context7Url}/get-library-docs`,
-				params,
-			);
-			return response.data;
-		} catch (error) {
-			this.handleError("getLibraryDocs", error);
-		}
+		// TODO: Implement when axios is available
+		throw new Error("MCP Tools not yet implemented - missing axios dependency");
 	}
 
 	/**
@@ -83,26 +69,8 @@ export class MCPTools {
 	 * @returns The response from the GitHub MCP service
 	 */
 	async callGitHubMCP(functionName: string, params: any): Promise<any> {
-		try {
-			const token = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
-			if (!token) {
-				throw new Error(
-					"GITHUB_PERSONAL_ACCESS_TOKEN environment variable is not set",
-				);
-			}
-			const response = await axios.post(
-				`${this.githubUrl}/${functionName}`,
-				params,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				},
-			);
-			return response.data;
-		} catch (error) {
-			this.handleError(`callGitHubMCP for ${functionName}`, error);
-		}
+		// TODO: Implement when axios is available
+		throw new Error("MCP Tools not yet implemented - missing axios dependency");
 	}
 
 	/**
@@ -114,16 +82,8 @@ export class MCPTools {
 		task: string,
 		params: SequentialThinkingParams,
 	): Promise<string> {
-		try {
-			const response = await axios.post(
-				`${this.sequentialThinkingUrl}/sequential_thinking`,
-				{ task, ...params },
-				params,
-			);
-			return response.data;
-		} catch (error) {
-			this.handleError("sequentialThinking", error);
-		}
+		// TODO: Implement when axios is available
+		throw new Error("MCP Tools not yet implemented - missing axios dependency");
 	}
 
 	/**
@@ -133,14 +93,9 @@ export class MCPTools {
 	 * @throws The original error after logging
 	 */
 	private handleError(method: string, error: unknown): never {
-		if (axios.isAxiosError(error)) {
-			const err = error as AxiosError;
-			console.error(
-				`HTTP error in ${method}: ${err.response?.status} - ${JSON.stringify(err.response?.data)}`,
-			);
-		} else {
-			console.error(`Error in ${method}: ${error.message}`);
-		}
+		console.error(
+			`Error in ${method}: ${error instanceof Error ? error.message : String(error)}`,
+		);
 		throw error;
 	}
 }

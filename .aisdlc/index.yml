@@ -1,0 +1,265 @@
+idea-e5bb49ac:
+  id: idea-e5bb49ac
+  type: idea
+  status: processed
+  title: User Authentication System
+  source_file: /Users/parkerrex/Developer/aishell/.aishell/03_ideas/idea-e5bb49ac.md
+  created_at: '2025-06-08T03:54:30.519Z'
+  updated_at: '2025-06-08T03:56:38.720Z'
+  prd_id: prd-075557c0
+prd-075557c0:
+  id: prd-075557c0
+  type: prd
+  status: chunked
+  title: Product Requirements Document
+  priority: medium
+  source_idea_id: idea-e5bb49ac
+  source_file: /Users/parkerrex/Developer/aishell/.aishell/04_backlog/prd-075557c0.prd.md
+  created_at: '2025-06-08T03:56:38.720Z'
+  updated_at: '2025-06-08T03:58:10.537Z'
+  owner_agent_type: ProductOwnerAgent
+  chunk_ids:
+    - chunk-235ea931
+    - chunk-4f3b3c7f
+    - chunk-6ded909b
+chunk-235ea931:
+  id: chunk-235ea931
+  type: chunk
+  status: needs_revision
+  title: 'Chunk 1: Core Infrastructure'
+  priority: medium
+  source_prd_id: prd-075557c0
+  chunk_number: 1
+  total_chunks: 3
+  source_file: .aishell/04_backlog/chunk-235ea931.chunk.md
+  created_at: '2025-06-08T03:58:10.537Z'
+  updated_at: '2025-06-08T03:59:23.520Z'
+  owner_agent_type: PlannerAgent
+  validation_id: validation-df427db8
+chunk-4f3b3c7f:
+  id: chunk-4f3b3c7f
+  type: chunk
+  status: storified
+  title: 'Chunk 2: User Interface'
+  priority: medium
+  source_prd_id: prd-075557c0
+  chunk_number: 2
+  total_chunks: 3
+  source_file: .aishell/04_backlog/chunk-4f3b3c7f.chunk.md
+  created_at: '2025-06-08T03:58:10.537Z'
+  updated_at: '2025-06-08T04:00:50.969Z'
+  owner_agent_type: PlannerAgent
+  story_ids:
+    - story-d824403f
+    - story-f1afb052
+    - story-2daab08f
+chunk-6ded909b:
+  id: chunk-6ded909b
+  type: chunk
+  status: backlog
+  title: 'Chunk 3: Advanced Features'
+  priority: medium
+  source_prd_id: prd-075557c0
+  chunk_number: 3
+  total_chunks: 3
+  source_file: .aishell/04_backlog/chunk-6ded909b.chunk.md
+  created_at: '2025-06-08T03:58:10.537Z'
+  updated_at: '2025-06-08T03:58:10.537Z'
+  owner_agent_type: PlannerAgent
+validation-df427db8:
+  id: validation-df427db8
+  type: validation
+  status: completed
+  target_artifact_id: chunk-235ea931
+  target_artifact_type: chunk
+  persona: general
+  passed: false
+  source_file: >-
+    /Users/parkerrex/Developer/aishell/.aishell/validation/validation-df427db8.validation.md
+  created_at: '2025-06-08T03:59:23.520Z'
+  owner_agent_type: CriticAgent
+story-d824403f:
+  id: story-d824403f
+  type: story
+  status: in_progress
+  title: 'User Story 1: Basic Setup and Configuration'
+  priority: medium
+  story_points: 3
+  source_chunk_id: chunk-4f3b3c7f
+  story_number: 1
+  total_stories: 3
+  source_file: .aishell/05_in_progress/story-d824403f.story.md
+  created_at: '2025-06-08T04:00:50.969Z'
+  updated_at: '2025-06-08T19:40:59.437Z'
+  ready_at: '2025-06-08T04:00:50.969Z'
+  owner_agent_type: PlannerAgent
+  assigned_agent_type: BuilderAgent
+  implementation_started_at: '2025-06-08T19:40:59.438Z'
+story-f1afb052:
+  id: story-f1afb052
+  type: story
+  status: ready
+  title: 'User Story 2: Core Feature Implementation'
+  priority: medium
+  story_points: 8
+  source_chunk_id: chunk-4f3b3c7f
+  story_number: 2
+  total_stories: 3
+  source_file: .aishell/05_in_progress/story-f1afb052.story.md
+  created_at: '2025-06-08T04:00:50.969Z'
+  updated_at: '2025-06-08T04:00:50.969Z'
+  ready_at: '2025-06-08T04:00:50.969Z'
+  owner_agent_type: PlannerAgent
+story-2daab08f:
+  id: story-2daab08f
+  type: story
+  status: ready
+  title: 'User Story 3: Testing and Quality Assurance'
+  priority: medium
+  story_points: 5
+  source_chunk_id: chunk-4f3b3c7f
+  story_number: 3
+  total_stories: 3
+  source_file: .aishell/05_in_progress/story-2daab08f.story.md
+  created_at: '2025-06-08T04:00:50.969Z'
+  updated_at: '2025-06-08T04:00:50.969Z'
+  ready_at: '2025-06-08T04:00:50.969Z'
+  owner_agent_type: PlannerAgent
+idea-82bde7d0:
+  id: idea-82bde7d0
+  type: idea
+  status: processed
+  title: 'Test Implementation: Simple Utility Function'
+  source_file: /Users/parkerrex/Developer/aishell/.aishell/03_ideas/idea-82bde7d0.md
+  created_at: '2025-06-08T20:01:16.240Z'
+  updated_at: '2025-06-08T20:02:44.253Z'
+  prd_id: prd-d73604bb
+prd-0721f018:
+  id: prd-0721f018
+  type: prd
+  status: backlog
+  title: Product Requirements Document
+  priority: medium
+  source_idea_id: idea-82bde7d0
+  source_file: /Users/parkerrex/Developer/aishell/.aishell/04_backlog/prd-0721f018.prd.md
+  created_at: '2025-06-08T20:01:27.560Z'
+  updated_at: '2025-06-08T20:01:27.560Z'
+  owner_agent_type: ProductOwnerAgent
+prd-d73604bb:
+  id: prd-d73604bb
+  type: prd
+  status: chunked
+  title: Product Requirements Document
+  priority: medium
+  source_idea_id: idea-82bde7d0
+  source_file: /Users/parkerrex/Developer/aishell/.aishell/04_backlog/prd-d73604bb.prd.md
+  created_at: '2025-06-08T20:02:44.253Z'
+  updated_at: '2025-06-08T20:02:57.305Z'
+  owner_agent_type: ProductOwnerAgent
+  chunk_ids:
+    - chunk-258d540a
+    - chunk-581a8bb3
+    - chunk-e3a97b92
+chunk-258d540a:
+  id: chunk-258d540a
+  type: chunk
+  status: storified
+  title: 'Chunk 1: Core Infrastructure'
+  priority: medium
+  source_prd_id: prd-d73604bb
+  chunk_number: 1
+  total_chunks: 3
+  source_file: .aishell/04_backlog/chunk-258d540a.chunk.md
+  created_at: '2025-06-08T20:02:57.305Z'
+  updated_at: '2025-06-08T20:03:09.492Z'
+  owner_agent_type: PlannerAgent
+  story_ids:
+    - story-ef13ac36
+    - story-a5f6d0c8
+    - story-c52f4920
+chunk-581a8bb3:
+  id: chunk-581a8bb3
+  type: chunk
+  status: backlog
+  title: 'Chunk 2: User Interface'
+  priority: medium
+  source_prd_id: prd-d73604bb
+  chunk_number: 2
+  total_chunks: 3
+  source_file: .aishell/04_backlog/chunk-581a8bb3.chunk.md
+  created_at: '2025-06-08T20:02:57.305Z'
+  updated_at: '2025-06-08T20:02:57.305Z'
+  owner_agent_type: PlannerAgent
+chunk-e3a97b92:
+  id: chunk-e3a97b92
+  type: chunk
+  status: backlog
+  title: 'Chunk 3: Advanced Features'
+  priority: medium
+  source_prd_id: prd-d73604bb
+  chunk_number: 3
+  total_chunks: 3
+  source_file: .aishell/04_backlog/chunk-e3a97b92.chunk.md
+  created_at: '2025-06-08T20:02:57.305Z'
+  updated_at: '2025-06-08T20:02:57.305Z'
+  owner_agent_type: PlannerAgent
+story-ef13ac36:
+  id: story-ef13ac36
+  type: story
+  status: in_progress
+  title: 'User Story 1: Basic Setup and Configuration'
+  priority: medium
+  story_points: 3
+  source_chunk_id: chunk-258d540a
+  story_number: 1
+  total_stories: 3
+  source_file: .aishell/05_in_progress/story-ef13ac36.story.md
+  created_at: '2025-06-08T20:03:09.492Z'
+  updated_at: '2025-06-08T20:04:13.461Z'
+  ready_at: '2025-06-08T20:03:09.492Z'
+  owner_agent_type: PlannerAgent
+  assigned_agent_type: BuilderAgent
+  implementation_started_at: '2025-06-08T20:04:13.461Z'
+story-a5f6d0c8:
+  id: story-a5f6d0c8
+  type: story
+  status: ready
+  title: 'User Story 2: Core Feature Implementation'
+  priority: medium
+  story_points: 8
+  source_chunk_id: chunk-258d540a
+  story_number: 2
+  total_stories: 3
+  source_file: .aishell/05_in_progress/story-a5f6d0c8.story.md
+  created_at: '2025-06-08T20:03:09.492Z'
+  updated_at: '2025-06-08T20:03:09.492Z'
+  ready_at: '2025-06-08T20:03:09.492Z'
+  owner_agent_type: PlannerAgent
+story-c52f4920:
+  id: story-c52f4920
+  type: story
+  status: ready
+  title: 'User Story 3: Testing and Quality Assurance'
+  priority: medium
+  story_points: 5
+  source_chunk_id: chunk-258d540a
+  story_number: 3
+  total_stories: 3
+  source_file: .aishell/05_in_progress/story-c52f4920.story.md
+  created_at: '2025-06-08T20:03:09.492Z'
+  updated_at: '2025-06-08T20:03:09.492Z'
+  ready_at: '2025-06-08T20:03:09.492Z'
+  owner_agent_type: PlannerAgent
+story-timeformatter:
+  id: story-timeformatter
+  type: story
+  status: in_progress
+  title: 'User Story: Time Formatter Utility'
+  priority: medium
+  story_points: 3
+  source_file: .aishell/05_in_progress/story-timeformatter.story.md
+  created_at: '2025-06-08T20:10:00.000Z'
+  updated_at: '2025-06-08T20:06:34.481Z'
+  ready_at: '2025-06-08T20:10:00.000Z'
+  assigned_agent_type: BuilderAgent
+  implementation_started_at: '2025-06-08T20:06:34.483Z'

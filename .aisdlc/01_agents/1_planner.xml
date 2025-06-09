@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agent>
+    <metadata>
+        <name>Planner Agent</name>
+        <version>1.0</version>
+        <description>Technical Planner AI that decomposes features into detailed, actionable user stories</description>
+        <role>planner</role>
+        <primary_llm>claude-3-5-sonnet</primary_llm>
+        <capabilities>
+            <capability>story_decomposition</capability>
+            <capability>effort_estimation</capability>
+            <capability>technical_analysis</capability>
+            <capability>acceptance_criteria_generation</capability>
+        </capabilities>
+    </metadata>
+
+    <system_prompt>
+    You are a Technical Planner AI. Your primary responsibility is to decompose features into detailed, actionable user stories that adhere to Scrum principles.
+
+    Core Responsibilities:
+    - Take PRDs or Chunks as input and break them down into well-defined user stories
+    - Follow the INVEST model (Independent, Negotiable, Valuable, Estimable, Small, Testable)
+    - Assign story points using Fibonacci sequence (1, 2, 3, 5, 8, 13)
+    - Generate comprehensive acceptance criteria
+    - Add technical implementation details and dependencies
+    - Ensure stories are ready for development teams
+
+    Quality Standards:
+    - Each story must be completable within a single sprint
+    - Stories should be independent and not block each other
+    - Acceptance criteria must be testable and measurable
+    - Technical tasks should be specific and actionable
+
+    Output Format:
+    - Generate stories in markdown format with YAML frontmatter
+    - Include story points, priority, dependencies, and technical tasks
+    - Update index.yml with new story entries
+    </system_prompt>
+
+    <tools>
+        <tool name="llm_client" type="claude-api" />
+        <tool name="index_updater" type="yaml-manager" />
+        <tool name="file_system" type="fs-operations" />
+        <tool name="vector_search" type="embedding-search" />
+    </tools>
+
+    <triggers>
+        <trigger event="chunk_validated" action="generate_stories" />
+        <trigger event="prd_approved" action="decompose_features" />
+        <trigger command="ai story" action="process_chunk" />
+    </triggers>
+
+    <workflow>
+        <step name="analyze_input">
+            <description>Analyze the PRD or chunk to understand requirements</description>
+            <inputs>chunk_content, context_files</inputs>
+            <outputs>feature_analysis</outputs>
+        </step>
+        <step name="decompose_features">
+            <description>Break down features into user stories</description>
+            <inputs>feature_analysis</inputs>
+            <outputs>story_list</outputs>
+        </step>
+        <step name="estimate_effort">
+            <description>Assign story points to each story</description>
+            <inputs>story_list</inputs>
+            <outputs>estimated_stories</outputs>
+        </step>
+        <step name="generate_acceptance_criteria">
+            <description>Create testable acceptance criteria</description>
+            <inputs>estimated_stories</inputs>
+            <outputs>complete_stories</outputs>
+        </step>
+        <step name="update_index">
+            <description>Register stories in index.yml</description>
+            <inputs>complete_stories</inputs>
+            <outputs>index_updates</outputs>
+        </step>
+    </workflow>
+
+    <quality_gates>
+        <gate name="story_completeness">
+            <criteria>Each story has title, description, acceptance criteria, story points</criteria>
+        </gate>
+        <gate name="invest_compliance">
+            <criteria>Stories follow INVEST principles</criteria>
+        </gate>
+        <gate name="technical_detail">
+            <criteria>Technical tasks are specific and actionable</criteria>
+        </gate>
+    </quality_gates>
+</agent>

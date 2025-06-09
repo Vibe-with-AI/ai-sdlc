@@ -1,0 +1,78 @@
+/Users/parkerrex/Developer/aishell/.aishell/03_ideas/0_README.md:
+  id: 0_README
+  type: idea
+  last_embedded: '2025-06-08T04:01:55.394Z'
+  content_hash: uxkurq
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/03_ideas/IDEA-001.md:
+  id: IDEA-001
+  type: idea
+  last_embedded: '2025-06-08T04:01:55.547Z'
+  content_hash: uxkurq
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/03_ideas/idea-e5bb49ac.md:
+  id: idea-e5bb49ac
+  type: idea
+  last_embedded: '2025-06-08T04:01:55.709Z'
+  content_hash: '-fev786'
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/03_ideas/scrum-aider-agent-cli.prd.md:
+  id: scrum-aider-agent-cli.prd
+  type: idea
+  last_embedded: '2025-06-08T04:01:55.870Z'
+  content_hash: eq9cc6
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/04_backlog/prd-075557c0.prd.md:
+  id: prd-075557c0
+  type: prd
+  last_embedded: '2025-06-08T04:01:56.030Z'
+  content_hash: 3sr4yd
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/04_backlog/chunk-235ea931.chunk.md:
+  id: chunk-235ea931
+  type: chunk
+  last_embedded: '2025-06-08T04:01:56.190Z'
+  content_hash: 2fxtsh
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/04_backlog/chunk-4f3b3c7f.chunk.md:
+  id: chunk-4f3b3c7f
+  type: chunk
+  last_embedded: '2025-06-08T04:01:56.342Z'
+  content_hash: b3svde
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/04_backlog/chunk-6ded909b.chunk.md:
+  id: chunk-6ded909b
+  type: chunk
+  last_embedded: '2025-06-08T04:01:56.495Z'
+  content_hash: '-5l2mei'
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/05_in_progress/story-2daab08f.story.md:
+  id: story-2daab08f
+  type: story
+  last_embedded: '2025-06-08T04:01:56.649Z'
+  content_hash: 3dwvpa
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/05_in_progress/story-d824403f.story.md:
+  id: story-d824403f
+  type: story
+  last_embedded: '2025-06-08T04:01:56.802Z'
+  content_hash: '-xxqlcv'
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/05_in_progress/story-f1afb052.story.md:
+  id: story-f1afb052
+  type: story
+  last_embedded: '2025-06-08T04:01:56.958Z'
+  content_hash: iy6bbj
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/06_done/0_README.md:
+  id: 0_README
+  type: completed
+  last_embedded: '2025-06-08T04:01:57.114Z'
+  content_hash: 4fz5sq
+  embedding_model: text-embedding-ada-002
+/Users/parkerrex/Developer/aishell/.aishell/06_done/STORY-001.md:
+  id: STORY-001
+  type: completed
+  last_embedded: '2025-06-08T04:01:57.267Z'
+  content_hash: '0'
+  embedding_model: text-embedding-ada-002

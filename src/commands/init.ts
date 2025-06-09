@@ -1,14 +1,14 @@
 import path from "node:path";
 import { Command } from "@oclif/core";
-import * as fs from "fs-extra";
+import fs from "fs-extra";
 
 export default class Init extends Command {
-	static description = "Initialize the .aishell folder structure";
+	static description = "Initialize the .aisdlc folder structure";
 
 	async run(): Promise<void> {
-		const aishellDir = path.join(process.cwd(), ".aishell");
-		if (fs.existsSync(aishellDir)) {
-			this.log(".aishell directory already exists. Skipping initialization.");
+		const aisdlcDir = path.join(process.cwd(), ".aisdlc");
+		if (await fs.pathExists(aisdlcDir)) {
+			this.log(".aisdlc directory already exists. Skipping initialization.");
 			return;
 		}
 
@@ -23,38 +23,38 @@ export default class Init extends Command {
 			"refs",
 		];
 		for (const dir of structure) {
-			fs.ensureDirSync(path.join(aishellDir, dir));
+			await fs.ensureDir(path.join(aisdlcDir, dir));
 		}
 
 		// Create READMEs and sample files
-		fs.writeFileSync(
-			path.join(aishellDir, "01_agents", "0_README.md"),
+		await fs.writeFile(
+			path.join(aisdlcDir, "01_agents", "0_README.md"),
 			"# Agents\nDefine your agents here.",
 		);
-		fs.writeFileSync(
-			path.join(aishellDir, "02_prompts", "0_README.md"),
+		await fs.writeFile(
+			path.join(aisdlcDir, "02_prompts", "0_README.md"),
 			"# Prompts\nStore your prompt templates here.",
 		);
-		fs.writeFileSync(
-			path.join(aishellDir, "03_ideas", "0_README.md"),
+		await fs.writeFile(
+			path.join(aisdlcDir, "03_ideas", "0_README.md"),
 			"# Ideas\nDrop your idea files here in Markdown format (e.g., `IDEA-001.md`) to start the Agile process.\nThe system will detect new files and process them automatically.",
 		);
 
 		// Create refs folder content
-		fs.writeFileSync(
-			path.join(aishellDir, "refs", "context-7-mcp.md"),
-			"# Context7 MCP\nDocumentation for fetching up-to-date library and SDK docs.\nSee `.aishell/refs/available-tools.xml` for full capabilities.",
+		await fs.writeFile(
+			path.join(aisdlcDir, "refs", "context-7-mcp.md"),
+			"# Context7 MCP\nDocumentation for fetching up-to-date library and SDK docs.\nSee `.aisdlc/refs/available-tools.xml` for full capabilities.",
 		);
-		fs.writeFileSync(
-			path.join(aishellDir, "refs", "github-mcp.md"),
-			"# GitHub MCP\nDocumentation for GitHub CRUD operations.\nSee `.aishell/refs/available-tools.xml` for full capabilities.",
+		await fs.writeFile(
+			path.join(aisdlcDir, "refs", "github-mcp.md"),
+			"# GitHub MCP\nDocumentation for GitHub CRUD operations.\nSee `.aisdlc/refs/available-tools.xml` for full capabilities.",
 		);
-		fs.writeFileSync(
-			path.join(aishellDir, "refs", "sequential-thinking-mcp.md"),
-			"# Sequential Thinking MCP\nDocumentation for structured problem-solving.\nSee `.aishell/refs/available-tools.xml` for full capabilities.",
+		await fs.writeFile(
+			path.join(aisdlcDir, "refs", "sequential-thinking-mcp.md"),
+			"# Sequential Thinking MCP\nDocumentation for structured problem-solving.\nSee `.aisdlc/refs/available-tools.xml` for full capabilities.",
 		);
-		fs.writeFileSync(
-			path.join(aishellDir, "refs", "available-tools.xml"),
+		await fs.writeFile(
+			path.join(aisdlcDir, "refs", "available-tools.xml"),
 			`<?xml version="1.0" encoding="UTF-8"?>
 <available_tools>
   <description>
@@ -76,6 +76,6 @@ export default class Init extends Command {
 </available_tools>`,
 		);
 
-		this.log("Initialized .aishell folder structure with refs.");
+		this.log("Initialized .aisdlc folder structure with refs.");
 	}
 }

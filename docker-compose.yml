@@ -3,21 +3,21 @@ services:
   aider:
     image: aider:latest
     volumes:
-      - ./.aishell:/app/.aishell
-      - ./.aishell/refs:/app/.aishell/refs
+      - ./.aisdlc:/app/.aisdlc
+      - ./.aisdlc/refs:/app/.aisdlc/refs
     environment:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
   github_mcp:
     image: github-mcp:latest
     volumes:
-      - ./.aishell/refs:/app/.aishell/refs
+      - ./.aisdlc/refs:/app/.aisdlc/refs
     environment:
       - GITHUB_TOKEN=${GITHUB_TOKEN}
   sequential_thinking_mcp:
     image: sequential-thinking-mcp:latest
     volumes:
-      - ./.aishell/refs:/app/.aishell/refs
+      - ./.aisdlc/refs:/app/.aisdlc/refs
   context7_mcp:
     image: context7-mcp:latest
     volumes:
-      - ./.aishell/refs:/app/.aishell/refs
+      - ./.aisdlc/refs:/app/.aisdlc/refs

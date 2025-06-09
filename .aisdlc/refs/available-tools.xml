@@ -324,14 +324,14 @@
 
   <reference_usage>
     <instruction>
-      To reference these tools in prompts, include: "You have access to the following MCP tools as documented in .aishell/refs/available-tools.xml:"
+      To reference these tools in prompts, include: "You have access to the following MCP tools as documented in .aisdlc/refs/available-tools.xml:"
       followed by specific tool names relevant to the task.
     </instruction>
 
     <template>
       <![CDATA[
       <tools_available>
-        <tool_reference source=".aishell/refs/available-tools.xml">
+        <tool_reference source=".aisdlc/refs/available-tools.xml">
           <tool name="context7_mcp" />
           <tool name="github_mcp" />
           <tool name="sequential_thinking_mcp" />

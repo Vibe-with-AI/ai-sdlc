@@ -1,32 +1,49 @@
 {
-	"name": "aishell",
-	"description": "A new CLI generated with oclif",
+	"name": "aisdlc",
+	"description": "AI Software Development Lifecycle - Turn ideas into working code automatically",
 	"version": "0.0.0",
 	"author": "Parker Rex",
 	"bin": {
-		"aishell": "./bin/run.js"
+		"aisdlc": "./bin/run.js"
 	},
 	"scripts": {
 		"lint": "biome check .",
 		"lint:fix": "biome check . --write",
-		"build": "bun build ./src/index.ts --outdir ./dist --target=node --format=esm",
-		"format": "biome format --write ."
+		"build": "tsc",
+		"build:bundle": "bun build ./src/index.ts --outdir ./dist --target=node --format=esm",
+		"format": "biome format --write .",
+		"test": "mocha",
+		"test:watch": "mocha --watch",
+		"prepack": "npm run build",
+		"postpack": "rm -f oclif.manifest.json"
 	},
 	"dependencies": {
+		"@anthropic-ai/sdk": "^0.53.0",
 		"@oclif/core": "^4",
 		"@oclif/plugin-help": "^6",
 		"@oclif/plugin-plugins": "^5",
+		"axios": "^1.9.0",
+		"chokidar": "^4.0.1",
+		"dockerode": "^4.0.2",
+		"dotenv": "^16.5.0",
 		"fs-extra": "^11.3.0",
 		"js-yaml": "^4.1.0",
-		"uuid": "^11.1.0"
+		"uuid": "^11.1.0",
+		"xml2js": "^0.6.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@oclif/test": "^4",
+		"@types/chai": "^4",
+		"@types/dockerode": "^3.3.31",
 		"@types/fs-extra": "^11.0.4",
 		"@types/js-yaml": "^4.0.9",
+		"@types/mocha": "^10",
 		"@types/node": "^18",
 		"@types/uuid": "^10.0.0",
+		"@types/xml2js": "^0.4.14",
+		"chai": "^4",
+		"mocha": "^10",
 		"oclif": "^4",
 		"shx": "^0.3.3",
 		"ts-node": "^10",
@@ -37,8 +54,8 @@
 	"main": "dist/index.js",
 	"type": "module",
 	"oclif": {
-		"bin": "aishell",
-		"dirname": "aishell",
+		"bin": "aisdlc",
+		"dirname": "aisdlc",
 		"commands": "./dist/commands",
 		"plugins": ["@oclif/plugin-help", "@oclif/plugin-plugins"],
 		"topicSeparator": " ",
